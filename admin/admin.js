@@ -1203,7 +1203,7 @@ async function renderSettings() {
         <div class="form-row"><div class="form-group"><label class="form-label">Author Name</label><input class="form-input" id="st_author" value="${esc(data.author||'')}"></div><div class="form-group"><label class="form-label">Contact Email</label><input class="form-input" id="st_email" value="${esc(data.email||'')}"></div></div>
         <div class="form-group"><label class="form-label">Copyright Text</label><input class="form-input" id="st_copy" value="${esc(data.copyright||'')}"></div>
       </div>
-      <div class="card">
+      <div class="card" style="margin-bottom:20px;">
         <div class="card-header"><span class="card-title">Section Visibility</span></div>
         <p style="font-size:13px;color:var(--lo);margin-bottom:16px">Disable a section to hide it from the public portfolio without deleting its data.</p>
         ${sections.map(s => `
@@ -1214,6 +1214,29 @@ async function renderSettings() {
               <span>${data['section_'+s] !== 0 ? 'Visible' : 'Hidden'}</span>
             </label>
           </div>`).join('')}
+      </div>
+
+      <!-- BACKUP & RESTORE / SNAPSHOT PERSISTENCE -->
+      <div class="card" style="border:1px solid var(--br);">
+        <div class="card-header"><span class="card-title">💾 Database Backup & Persistence Snapshot</span></div>
+        <p style="font-size:13px;color:var(--lo);margin-bottom:16px">
+          All modifications automatically sync to your persistent state snapshot. You can also export a complete JSON backup to your computer or restore one at any time.
+        </p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+          <a href="/api/admin/backup" download="portfolio-backup.json" class="btn btn-secondary" style="display:inline-flex;align-items:center;gap:6px;">
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Export Backup (JSON)
+          </a>
+          <label class="btn btn-secondary" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            Import & Restore (JSON)
+            <input type="file" id="importBackupInp" accept="application/json" style="display:none">
+          </label>
+          <button class="btn btn-primary" id="btnSyncSnapshot" style="display:inline-flex;align-items:center;gap:6px;">
+            <svg viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            Sync State Snapshot
+          </button>
+        </div>
       </div>
     </div>`;
   document.querySelectorAll('.sec-toggle').forEach(cb => {
@@ -1227,6 +1250,43 @@ async function renderSettings() {
       toast('Site settings saved!');
     } catch(e) { toast(e.message, 'error'); }
   });
+
+  // Manual snapshot sync
+  const syncBtn = document.getElementById('btnSyncSnapshot');
+  if (syncBtn) {
+    syncBtn.addEventListener('click', async () => {
+      try {
+        syncBtn.disabled = true;
+        const res = await api('POST', '/api/admin/sync-snapshot');
+        toast('State snapshot synced successfully!');
+      } catch(e) {
+        toast('Failed to sync snapshot: ' + e.message, 'error');
+      } finally {
+        syncBtn.disabled = false;
+      }
+    });
+  }
+
+  // Import JSON backup
+  const importInp = document.getElementById('importBackupInp');
+  if (importInp) {
+    importInp.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const json = JSON.parse(text);
+        if (!json || !json.data) throw new Error('Invalid portfolio backup file format.');
+        if (!confirm('This will replace your current portfolio data with the backup file. Proceed?')) return;
+        toast('Restoring data…', 'info');
+        const res = await api('POST', '/api/admin/restore', json);
+        toast('Database successfully restored from backup!');
+        renderSettings();
+      } catch(err) {
+        toast(`Import failed: ${err.message}`, 'error');
+      }
+    });
+  }
 }
 
 // ── MESSAGES ──

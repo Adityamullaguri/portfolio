@@ -1,0 +1,495 @@
+{
+  "version": 1,
+  "exported_at": "2026-09-02T12:04:47.359Z",
+  "data": {
+    "site_settings": [
+      {
+        "id": 1,
+        "site_title": "Aditya — Developer Portfolio",
+        "meta_desc": "Portfolio of Aditya — Full-Stack Developer & AI Enthusiast.",
+        "author": "Aditya",
+        "email": "aditya@example.com",
+        "favicon_url": "",
+        "logo_url": "",
+        "copyright": "© 2024 Aditya. All rights reserved.",
+        "section_home": 1,
+        "section_about": 1,
+        "section_skills": 1,
+        "section_internship": 1,
+        "section_projects": 1,
+        "section_certificates": 1,
+        "section_education": 1,
+        "section_contact": 1,
+        "accent_color": "#34d36e",
+        "updated_at": "2026-09-02 07:40:03"
+      }
+    ],
+    "home_content": [
+      {
+        "id": 1,
+        "greeting": "Hello, I'm",
+        "name": "Aditya",
+        "role_line1": "Full-Stack Developer",
+        "role_line2": "& AI Enthusiast",
+        "description": "I build clean, scalable web applications and AI-powered solutions that turn ideas into useful digital experiences.",
+        "btn_primary_text": "View My Work →",
+        "btn_primary_link": "#projects",
+        "btn_secondary_text": "Get in Touch",
+        "btn_secondary_link": "#contact",
+        "hero_image_light": "portrait.png",
+        "hero_image_dark": "portrait-dark.png",
+        "chips": "[\"React\",\"Python\",\"Node.js\",\"AI / ML\",\"IoT\"]",
+        "updated_at": "2026-09-02 07:40:03"
+      }
+    ],
+    "about_content": [
+      {
+        "id": 1,
+        "intro": "Hey — I'm <span class=\"ab-hl\">Aditya</span>. A Computer Science student and <span class=\"ab-hl\">Full-Stack Developer & AI Enthusiast</span> who enjoys building practical digital experiences.",
+        "bio": "[\"My journey started with basic Python scripts and C++ fundamentals, which naturally evolved into building full-stack web applications, real-time IoT monitoring systems, and AI-integrated products end-to-end.\",\"I focus on writing clean, scalable code and crafting thoughtful user experiences. Whether it's developing responsive web interfaces, engineering RESTful APIs, or experimenting with machine learning models, I love bringing ideas to life.\",\"Outside of core software development, I explore automotive technology, experiment with embedded hardware like ESP32, and contribute to open-source projects.\"]",
+        "info_rows": "[{\"label\":\"Location\",\"value\":\"India 📍\"},{\"label\":\"Degree\",\"value\":\"B.Tech CS — 3rd Year\"},{\"label\":\"Status\",\"value\":\"Seeking Internship 💼\"},{\"label\":\"Focus\",\"value\":\"Full-Stack + AI/ML + IoT\"},{\"label\":\"Languages\",\"value\":\"Python, JavaScript, C++, SQL, HTML/CSS\"}]",
+        "image1_src": "about-workspace.jpg",
+        "image1_alt": "Aditya's development workspace setup",
+        "image1_caption": "// my workspace",
+        "image2_src": "about-dataviz.jpg",
+        "image2_alt": "Data analytics visualization dashboard",
+        "image2_caption": "// data viz",
+        "updated_at": "2026-09-02 07:40:03"
+      }
+    ],
+    "contact_settings": [
+      {
+        "id": 1,
+        "email": "aditya@example.com",
+        "phone": "",
+        "location": "India",
+        "availability_text": "Open to internships, freelance projects, and meaningful collaboration.",
+        "contact_desc": "I typically respond within 24 hours — let's build something great together.",
+        "form_title": "Get in Touch",
+        "form_enabled": 1,
+        "updated_at": "2026-09-02 07:40:03"
+      }
+    ],
+    "skills": [
+      {
+        "id": 1,
+        "name": "React",
+        "category": "Frontend",
+        "logo_url": "assets/skills/react.svg",
+        "description": "Building interactive and component-based web interfaces.",
+        "display_order": 0,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 2,
+        "name": "JavaScript",
+        "category": "Language",
+        "logo_url": "assets/skills/javascript.svg",
+        "description": "Modern JavaScript for interactive web applications.",
+        "display_order": 1,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 3,
+        "name": "Python",
+        "category": "Language",
+        "logo_url": "assets/skills/python.svg",
+        "description": "Python for development, automation and AI/ML.",
+        "display_order": 2,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 4,
+        "name": "Node.js",
+        "category": "Backend",
+        "logo_url": "assets/skills/nodejs.svg",
+        "description": "Building scalable backend services and APIs.",
+        "display_order": 3,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 5,
+        "name": "HTML",
+        "category": "Frontend",
+        "logo_url": "assets/skills/html.svg",
+        "description": "Semantic and accessible web structure.",
+        "display_order": 4,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 6,
+        "name": "CSS",
+        "category": "Frontend",
+        "logo_url": "assets/skills/css.svg",
+        "description": "Responsive layouts, animations and modern UI.",
+        "display_order": 5,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 7,
+        "name": "SQL",
+        "category": "Database",
+        "logo_url": "assets/skills/sql.svg",
+        "description": "Working with relational databases and queries.",
+        "display_order": 6,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 8,
+        "name": "Git",
+        "category": "Tools",
+        "logo_url": "assets/skills/git.svg",
+        "description": "Version control and collaborative development.",
+        "display_order": 7,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 9,
+        "name": "GitHub",
+        "category": "Tools",
+        "logo_url": "assets/skills/github.svg",
+        "description": "Code hosting, collaboration and project management.",
+        "display_order": 8,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 10,
+        "name": "TensorFlow",
+        "category": "AI / ML",
+        "logo_url": "assets/skills/tensorflow.svg",
+        "description": "Machine learning and AI experimentation.",
+        "display_order": 9,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 11,
+        "name": "OpenCV",
+        "category": "Computer Vision",
+        "logo_url": "assets/skills/opencv.svg",
+        "description": "Computer vision and image processing.",
+        "display_order": 10,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 12,
+        "name": "IoT",
+        "category": "Hardware",
+        "logo_url": "assets/skills/iot.svg",
+        "description": "Connected devices, sensors and intelligent systems.",
+        "display_order": 11,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      }
+    ],
+    "internships": [
+      {
+        "id": 1,
+        "company": "TechCorp Solutions Pvt. Ltd.",
+        "role": "Software Development Intern",
+        "start_date": "Jun 2024",
+        "end_date": "Aug 2024",
+        "location": "Remote",
+        "description": "Built scalable backend APIs, real-time dashboards, and containerized cloud deployments during a 3-month software development internship.",
+        "logo_url": "assets/techcorp.svg",
+        "website_url": "",
+        "technologies": "[\"Node.js\",\"Express\",\"MongoDB\",\"React\",\"WebSocket\",\"Docker\",\"AWS EC2\",\"Git\"]",
+        "responsibilities": "[\"Built RESTful APIs with Node.js & Express, reducing server response latency by 30%.\",\"Developed a real-time analytics monitoring dashboard powered by React & WebSocket.\",\"Containerized services using Docker and deployed to production on AWS EC2.\"]",
+        "achievements": "[\"Reduced API latency by 30%\",\"Delivered real-time monitoring dashboard\",\"Containerized 3 microservices\"]",
+        "cert_url": "assets/techcorp-internship-certificate.svg",
+        "cert_title": "Internship Certificate",
+        "display_order": 0,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      }
+    ],
+    "projects": [
+      {
+        "id": 1,
+        "name": "Smart Hydroponic System",
+        "short_desc": "IoT-powered farm with real-time sensor monitoring, AI plant disease detection via ESP32-CAM + Gemini Vision API, and a Flask dashboard.",
+        "full_desc": "IoT-powered farm with real-time sensor monitoring (pH, EC, water temperature, humidity), AI plant disease detection via ESP32-CAM + Gemini Vision API, and an interactive Flask web dashboard with automated nutrient dosing.",
+        "category": "IoT & AI Automation / Web Dashboard",
+        "image_url": "assets/projects/smart-hydroponics.svg",
+        "github_url": "#",
+        "demo_url": "#",
+        "tags": "[\"Flask\",\"ESP32\",\"Gemini API\",\"MQTT\",\"Python\",\"C++\"]",
+        "role": "Full Stack / IoT Developer",
+        "status": "Live Hardware Demo",
+        "badge_label": "Live Hardware",
+        "featured": 0,
+        "published": 1,
+        "display_order": 0,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 2,
+        "name": "Quizer — AI Quiz App",
+        "short_desc": "Converts PDFs, images and text into interactive quizzes with MCQ detection, performance analytics, and a subject library.",
+        "full_desc": "Converts PDFs, images, and raw text into interactive quizzes automatically. Features intelligent MCQ detection, OCR document parsing, editable question card builder, real-time quiz player, and student performance analytics.",
+        "category": "Full Stack AI Web Application",
+        "image_url": "assets/projects/quizer-ai.svg",
+        "github_url": "#",
+        "demo_url": "#",
+        "tags": "[\"React\",\"FastAPI\",\"Gemini AI\",\"Tesseract OCR\",\"Python\",\"TailwindCSS\"]",
+        "role": "Full Stack Engineer",
+        "status": "Completed Project",
+        "badge_label": "Completed",
+        "featured": 0,
+        "published": 1,
+        "display_order": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 3,
+        "name": "Porsche GT3 RS Landing",
+        "short_desc": "Cinematic scroll-driven automotive site with 240-frame canvas engine, GSAP parallax, SVG aerodynamics callouts, and HUD navigation.",
+        "full_desc": "Cinematic scroll-driven automotive launch experience. Built with a custom 240-frame pre-rendered HTML5 canvas walkaround engine, GSAP parallax transitions, interactive aerodynamic callouts, and HUD-style telemetry.",
+        "category": "Interactive Web / Canvas Engine",
+        "image_url": "assets/projects/porsche-gt3.svg",
+        "github_url": "#",
+        "demo_url": "#",
+        "tags": "[\"React\",\"GSAP\",\"HTML5 Canvas\",\"Vite\",\"JavaScript\",\"CSS3\"]",
+        "role": "Frontend & Animation Specialist",
+        "status": "Live Demo",
+        "badge_label": "Live Demo",
+        "featured": 0,
+        "published": 1,
+        "display_order": 2,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      }
+    ],
+    "certificates": [
+      {
+        "id": 1,
+        "cert_key": "google-python",
+        "issuer": "Google / Coursera",
+        "title": "Crash Course on Python",
+        "description": "Completed the Crash Course on Python certification, covering Python fundamentals, data structures, object-oriented programming, scripting techniques, and automated workflows.",
+        "year": "2024",
+        "credential_id": "GOOG-PY-2024-8849",
+        "credential_url": "",
+        "image_url": "assets/certificates/google-python.svg",
+        "category": "Course",
+        "skills_list": "[]",
+        "display_order": 0,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 2,
+        "cert_key": "deeplearning-ml",
+        "issuer": "DeepLearning.AI",
+        "title": "Machine Learning Specialization",
+        "description": "Completed the 3-course Machine Learning Specialization covering supervised learning, neural networks, decision trees, and unsupervised learning algorithms.",
+        "year": "2024",
+        "credential_id": "DLAI-ML-2024-9912",
+        "credential_url": "",
+        "image_url": "assets/certificates/deeplearning-ml.svg",
+        "category": "Specialization",
+        "skills_list": "[]",
+        "display_order": 1,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 3,
+        "cert_key": "meta-frontend",
+        "issuer": "Meta / Coursera",
+        "title": "Front-End Developer Professional",
+        "description": "Completed the 9-course program covering modern web development, React framework, UI/UX design principles, state management, version control, and production architecture.",
+        "year": "2023",
+        "credential_id": "META-FE-2023-4410",
+        "credential_url": "",
+        "image_url": "assets/certificates/meta-frontend.svg",
+        "category": "Professional Certificate",
+        "skills_list": "[]",
+        "display_order": 2,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 4,
+        "cert_key": "cisco-cybersecurity",
+        "issuer": "Cisco Networking Academy",
+        "title": "Intro to Cybersecurity",
+        "description": "Achieved student-level credential covering network security fundamentals, threat analysis, data confidentiality, encryption protocols, and operational security guidelines.",
+        "year": "2023",
+        "credential_id": "CSCO-SEC-2023-1104",
+        "credential_url": "",
+        "image_url": "assets/certificates/cisco-cybersecurity.svg",
+        "category": "Certification",
+        "skills_list": "[]",
+        "display_order": 3,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      }
+    ],
+    "education": [
+      {
+        "id": 1,
+        "degree": "B.Tech — Computer Science & Engineering",
+        "institution": "XYZ University of Technology",
+        "start_year": "2022",
+        "end_year": "2026",
+        "description": "",
+        "location": "",
+        "badge_text": "CGPA 8.6 / 10",
+        "achievements": "[\"DSA\",\"OS\",\"DBMS\",\"Computer Networks\",\"Machine Learning\"]",
+        "display_order": 0,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 2,
+        "degree": "Higher Secondary Certificate (12th Grade)",
+        "institution": "ABC Junior College",
+        "start_year": "2020",
+        "end_year": "2022",
+        "description": "",
+        "location": "",
+        "badge_text": "92.4%",
+        "achievements": "[\"Physics\",\"Chemistry\",\"Mathematics\"]",
+        "display_order": 1,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03",
+        "updated_at": "2026-09-02 07:40:03"
+      }
+    ],
+    "social_links": [
+      {
+        "id": 1,
+        "platform": "GitHub",
+        "url": "https://github.com/aditya",
+        "icon_svg": "",
+        "display_order": 0,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 2,
+        "platform": "LinkedIn",
+        "url": "https://linkedin.com/in/aditya",
+        "icon_svg": "",
+        "display_order": 1,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 3,
+        "platform": "Email",
+        "url": "mailto:aditya@example.com",
+        "icon_svg": "",
+        "display_order": 2,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03"
+      },
+      {
+        "id": 4,
+        "platform": "Resume",
+        "url": "#",
+        "icon_svg": "",
+        "display_order": 3,
+        "active": 1,
+        "created_at": "2026-09-02 07:40:03"
+      }
+    ],
+    "navbar_items": [
+      {
+        "id": 1,
+        "label": "Home",
+        "section_id": "home",
+        "icon_svg": "",
+        "display_order": 0,
+        "visible": 1
+      },
+      {
+        "id": 2,
+        "label": "About",
+        "section_id": "about",
+        "icon_svg": "",
+        "display_order": 1,
+        "visible": 1
+      },
+      {
+        "id": 3,
+        "label": "Skills",
+        "section_id": "skills",
+        "icon_svg": "",
+        "display_order": 2,
+        "visible": 1
+      },
+      {
+        "id": 4,
+        "label": "Internship",
+        "section_id": "internship",
+        "icon_svg": "",
+        "display_order": 3,
+        "visible": 1
+      },
+      {
+        "id": 5,
+        "label": "Projects",
+        "section_id": "projects",
+        "icon_svg": "",
+        "display_order": 4,
+        "visible": 1
+      },
+      {
+        "id": 6,
+        "label": "Certificates",
+        "section_id": "certificates",
+        "icon_svg": "",
+        "display_order": 5,
+        "visible": 1
+      },
+      {
+        "id": 7,
+        "label": "Education",
+        "section_id": "education",
+        "icon_svg": "",
+        "display_order": 6,
+        "visible": 1
+      },
+      {
+        "id": 8,
+        "label": "Contact",
+        "section_id": "contact",
+        "icon_svg": "",
+        "display_order": 7,
+        "visible": 1
+      }
+    ]
+  }
+}

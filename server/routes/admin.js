@@ -6,6 +6,7 @@ const fs = require('fs');
 const { getDb } = require('../db');
 const { requireAuth } = require('../middleware/auth');
 const { upload, UPLOADS_DIR } = require('../middleware/upload');
+const { exportState, autoSyncState, importState } = require('../backup');
 
 // All routes require authentication
 router.use(requireAuth);
@@ -19,7 +20,39 @@ function log(db, action, entity, entity_id = '', detail = '') {
     db.prepare('INSERT INTO activity_log (action,entity,entity_id,detail) VALUES (?,?,?,?)')
       .run(action, entity, String(entity_id), detail);
   } catch(e) {}
+  // Auto-persist database state to persistent JSON snapshot
+  try {
+    autoSyncState(db);
+  } catch(e) {}
 }
+
+// ── BACKUP & RESTORE ──
+router.get('/backup', (req, res) => {
+  const db = getDb();
+  const state = exportState(db);
+  res.setHeader('Content-Type', 'application/json');
+  res.setHeader('Content-Disposition', `attachment; filename="portfolio-backup-${Date.now()}.json"`);
+  res.send(JSON.stringify(state, null, 2));
+});
+
+router.post('/restore', (req, res) => {
+  const db = getDb();
+  try {
+    const state = req.body;
+    importState(db, state);
+    log(db, 'RESTORE', 'system', 0, 'Restored database from JSON backup');
+    res.json({ success: true, message: 'Database state restored successfully.' });
+  } catch(err) {
+    res.status(400).json({ error: 'Failed to restore state: ' + err.message });
+  }
+});
+
+router.post('/sync-snapshot', (req, res) => {
+  const db = getDb();
+  const ok = autoSyncState(db);
+  if (ok) res.json({ success: true, message: 'State synced to snapshot successfully.' });
+  else res.status(500).json({ error: 'Failed to sync snapshot.' });
+});
 
 // ── STATS (dashboard overview) ──
 router.get('/stats', (req, res) => {

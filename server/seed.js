@@ -2,14 +2,13 @@
 require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const bcrypt = require('bcryptjs');
 const { getDb } = require('./db');
+const { restoreFromStateFile, autoSyncState } = require('./backup');
 
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@portfolio.local';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Admin@1234';
 
 function seed() {
   const db = getDb();
-
-  console.log('🌱 Seeding database...');
 
   // 1. Admin User
   const existingUser = db.prepare('SELECT id FROM users WHERE email = ?').get(ADMIN_EMAIL);
@@ -20,6 +19,15 @@ function seed() {
   } else {
     console.log(`  ✓ Admin user already exists: ${ADMIN_EMAIL}`);
   }
+
+  // 2. Check if a saved state snapshot exists
+  const restored = restoreFromStateFile(db);
+  if (restored) {
+    console.log('🌱 Database initialized from saved portfolio-state.json');
+    return;
+  }
+
+  console.log('🌱 Seeding database with default content...');
 
   // 2. Site Settings
   db.prepare(`
@@ -301,6 +309,9 @@ function seed() {
     items.forEach(n => insertNav.run(n.label, n.section_id, n.display_order));
     console.log(`  ✓ Seeded ${items.length} navbar items`);
   }
+
+  // Save initial snapshot
+  autoSyncState(db);
 
   console.log('\n✅ Database seeded successfully!\n');
 }
