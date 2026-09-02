@@ -345,9 +345,9 @@
     itemsContainer.innerHTML = education.map((e, idx) => `
       <div class="edu-item" data-edu-idx="${idx}">
         <div class="edu-dot-wrap">
-          <div class="edu-dot" id="eduDot-${idx}"></div>
+          <div class="edu-dot active" id="eduDot-${idx}"></div>
         </div>
-        <div class="edu-card" id="eduCard-${idx}">
+        <div class="edu-card visible" id="eduCard-${idx}">
           <div class="edu-card-header">
             <span class="edu-year">${e.start_year} – ${e.end_year}</span>
             ${e.badge_text ? `<span class="edu-badge">${e.badge_text}</span>` : ''}
@@ -361,6 +361,9 @@
           ${e.description ? `<p class="ey" style="margin-top:8px">${e.description}</p>` : ''}
         </div>
       </div>`).join('');
+
+    // Trigger scroll recalculation
+    window.dispatchEvent(new Event('scroll'));
   }
 
   // ── Apply Social Links ──
