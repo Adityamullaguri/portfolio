@@ -22,7 +22,7 @@ function ensureDir(dir) {
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    let sub = 'misc';
+    let sub = req.query.folder || req.headers['x-upload-folder'] || 'misc';
     const url = req.originalUrl || '';
     if (url.includes('skills'))       sub = 'skills';
     else if (url.includes('projects')) sub = 'projects';
@@ -30,6 +30,8 @@ const storage = multer.diskStorage({
     else if (url.includes('intern'))   sub = 'internships';
     else if (url.includes('about'))    sub = 'about';
     else if (url.includes('home'))     sub = 'home';
+    const allowedSubs = ['skills','projects','certificates','internships','about','home','misc'];
+    if (!allowedSubs.includes(sub)) sub = 'misc';
     const dir = path.join(UPLOADS_DIR, sub);
     ensureDir(dir);
     req._uploadSubfolder = sub;

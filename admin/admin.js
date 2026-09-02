@@ -110,6 +110,88 @@ formModalSave.addEventListener('click', async () => {
   }
 });
 
+// ── Image / File Uploader Helper ──
+window.updateImageFieldPreview = function(id) {
+  const input = document.getElementById(id);
+  const preview = document.getElementById(id + '_preview');
+  if (!input || !preview) return;
+  const val = input.value.trim();
+  if (!val) { preview.innerHTML = ''; return; }
+  const isDoc = val.endsWith('.pdf');
+  if (isDoc) {
+    preview.innerHTML = `<a href="${esc(val)}" target="_blank" class="btn btn-secondary btn-sm" style="margin-top:6px;display:inline-flex;align-items:center;gap:4px;">📄 View Document (${esc(val.split('/').pop())})</a>`;
+  } else {
+    preview.innerHTML = `<div class="img-preview-box" style="margin-top:6px;display:flex;align-items:center;gap:10px;">
+      <img src="${esc(val)}" style="max-height:48px;max-width:120px;border-radius:6px;border:1px solid var(--br2);background:var(--sf3);object-fit:contain;padding:2px;" onerror="this.parentElement.style.display='none'">
+      <span style="font-size:11px;color:var(--lo);">${esc(val)}</span>
+    </div>`;
+  }
+};
+
+function makeImageUploadField({ id, label, value = '', folder = 'misc', accept = 'image/png,image/jpeg,image/webp,image/svg+xml,application/pdf', placeholder = 'URL or click Upload' }) {
+  const isDoc = value && value.endsWith('.pdf');
+  const previewHtml = value ? (isDoc ? `<a href="${esc(value)}" target="_blank" class="btn btn-secondary btn-sm" style="margin-top:6px;display:inline-flex;align-items:center;gap:4px;">📄 View Document (${esc(value.split('/').pop())})</a>` : `<div class="img-preview-box" style="margin-top:6px;display:flex;align-items:center;gap:10px;">
+    <img src="${esc(value)}" style="max-height:48px;max-width:120px;border-radius:6px;border:1px solid var(--br2);background:var(--sf3);object-fit:contain;padding:2px;" onerror="this.parentElement.style.display='none'">
+    <span style="font-size:11px;color:var(--lo);">${esc(value)}</span>
+  </div>`) : '';
+
+  return `
+    <div class="form-group img-upload-group" data-target="${id}">
+      <label class="form-label">${label}</label>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input class="form-input" id="${id}" value="${esc(value)}" placeholder="${esc(placeholder)}" style="flex:1;" oninput="updateImageFieldPreview('${id}')">
+        <label class="btn btn-secondary" style="cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;font-size:12px;user-select:none;">
+          <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+          Upload
+          <input type="file" class="direct-file-uploader" data-target="${id}" data-folder="${folder}" accept="${accept}" style="display:none">
+        </label>
+      </div>
+      <div id="${id}_preview">${previewHtml}</div>
+    </div>
+  `;
+}
+
+// Global delegated change listener for direct file upload inputs
+document.addEventListener('change', async (e) => {
+  if (!e.target.classList.contains('direct-file-uploader')) return;
+  const file = e.target.files[0];
+  if (!file) return;
+  const targetId = e.target.dataset.target;
+  const folder = e.target.dataset.folder || 'misc';
+  const fd = new FormData();
+  fd.append('file', file);
+
+  const uploadLabel = e.target.closest('label');
+  const origHtml = uploadLabel ? uploadLabel.innerHTML : '';
+  if (uploadLabel) {
+    uploadLabel.innerHTML = `<span style="font-size:11px;color:var(--ac);">Uploading…</span>`;
+    uploadLabel.style.pointerEvents = 'none';
+  }
+
+  try {
+    const res = await fetch(`/api/admin/media/upload?folder=${folder}`, {
+      method: 'POST',
+      body: fd,
+      credentials: 'same-origin'
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Upload failed');
+    const input = document.getElementById(targetId);
+    if (input) {
+      input.value = data.url;
+      window.updateImageFieldPreview(targetId);
+    }
+    toast(`Uploaded: ${file.name}`);
+  } catch (err) {
+    toast(`Upload failed: ${err.message}`, 'error');
+  } finally {
+    if (uploadLabel) {
+      uploadLabel.innerHTML = origHtml;
+      uploadLabel.style.pointerEvents = '';
+    }
+  }
+});
+
 // ── Content Area ──
 const content = document.getElementById('adminContent');
 const pageTitle = document.getElementById('pageTitle');
@@ -330,14 +412,8 @@ async function renderHome() {
           <div style="font-size:11px;color:var(--lo);margin-top:4px">e.g. React, Python, Node.js, AI / ML, IoT</div>
         </div>
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Hero Image (Light Mode) — filename or URL</label>
-            <input class="form-input" id="h_imgL" value="${esc(data.hero_image_light)}">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Hero Image (Dark Mode) — filename or URL</label>
-            <input class="form-input" id="h_imgD" value="${esc(data.hero_image_dark)}">
-          </div>
+          ${makeImageUploadField({ id: 'h_imgL', label: 'Hero Image (Light Mode)', value: data.hero_image_light||'portrait.png', folder: 'home', placeholder: 'portrait.png or /uploads/home/...' })}
+          ${makeImageUploadField({ id: 'h_imgD', label: 'Hero Image (Dark Mode)', value: data.hero_image_dark||'portrait-dark.png', folder: 'home', placeholder: 'portrait-dark.png or /uploads/home/...' })}
         </div>
       </div>
     </div>`;
@@ -408,17 +484,19 @@ async function renderAbout() {
       <div class="card">
         <div class="card-header"><span class="card-title">About Images</span></div>
         <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Image 1 Source</label>
-            <input class="form-input" id="ab_img1" value="${esc(data.image1_src||'')}">
-            <label class="form-label" style="margin-top:8px">Caption</label>
-            <input class="form-input" id="ab_cap1" value="${esc(data.image1_caption||'')}">
+          <div>
+            ${makeImageUploadField({ id: 'ab_img1', label: 'Image 1 Source', value: data.image1_src||'about-workspace.jpg', folder: 'about', placeholder: 'about-workspace.jpg or upload' })}
+            <div class="form-group" style="margin-top:8px">
+              <label class="form-label">Caption</label>
+              <input class="form-input" id="ab_cap1" value="${esc(data.image1_caption||'')}">
+            </div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Image 2 Source</label>
-            <input class="form-input" id="ab_img2" value="${esc(data.image2_src||'')}">
-            <label class="form-label" style="margin-top:8px">Caption</label>
-            <input class="form-input" id="ab_cap2" value="${esc(data.image2_caption||'')}">
+          <div>
+            ${makeImageUploadField({ id: 'ab_img2', label: 'Image 2 Source', value: data.image2_src||'about-dataviz.jpg', folder: 'about', placeholder: 'about-dataviz.jpg or upload' })}
+            <div class="form-group" style="margin-top:8px">
+              <label class="form-label">Caption</label>
+              <input class="form-input" id="ab_cap2" value="${esc(data.image2_caption||'')}">
+            </div>
           </div>
         </div>
       </div>
@@ -505,7 +583,7 @@ function openSkillModal(skill) {
       <div class="form-group"><label class="form-label">Name *</label><input class="form-input" id="sk_name" value="${esc(skill?.name||'')}"></div>
       <div class="form-group"><label class="form-label">Category</label><input class="form-input" id="sk_cat" value="${esc(skill?.category||'')}"></div>
     </div>
-    <div class="form-group"><label class="form-label">Logo URL (e.g. assets/skills/react.svg or /uploads/skills/...)</label><input class="form-input" id="sk_logo" value="${esc(skill?.logo_url||'')}"></div>
+    ${makeImageUploadField({ id: 'sk_logo', label: 'Skill Logo (SVG / PNG / WebP)', value: skill?.logo_url||'', folder: 'skills', placeholder: 'assets/skills/react.svg or upload' })}
     <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="sk_desc" rows="2">${esc(skill?.description||'')}</textarea></div>
     <div class="form-row">
       <div class="form-group"><label class="form-label">Display Order</label><input class="form-input" type="number" id="sk_order" value="${skill?.display_order??0}"></div>
@@ -561,12 +639,18 @@ function openInternshipModal(item) {
   openFormModal(isNew ? 'Add Internship' : 'Edit Internship', `
     <div class="form-row"><div class="form-group"><label class="form-label">Company *</label><input class="form-input" id="in_co" value="${esc(item?.company||'')}"></div><div class="form-group"><label class="form-label">Role *</label><input class="form-input" id="in_role" value="${esc(item?.role||'')}"></div></div>
     <div class="form-row"><div class="form-group"><label class="form-label">Start Date</label><input class="form-input" id="in_sd" value="${esc(item?.start_date||'')}"></div><div class="form-group"><label class="form-label">End Date</label><input class="form-input" id="in_ed" value="${esc(item?.end_date||'')}"></div></div>
-    <div class="form-row"><div class="form-group"><label class="form-label">Location</label><input class="form-input" id="in_loc" value="${esc(item?.location||'')}"></div><div class="form-group"><label class="form-label">Company Logo URL</label><input class="form-input" id="in_logo" value="${esc(item?.logo_url||'')}"></div></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Location</label><input class="form-input" id="in_loc" value="${esc(item?.location||'')}"></div>
+      ${makeImageUploadField({ id: 'in_logo', label: 'Company Logo', value: item?.logo_url||'', folder: 'internships', placeholder: 'assets/techcorp.svg or upload' })}
+    </div>
     <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="in_desc" rows="3">${esc(item?.description||'')}</textarea></div>
     <div class="form-group"><label class="form-label">Technologies (comma-separated)</label><input class="form-input" id="in_tech" value="${esc((item?.technologies||[]).join(', '))}"></div>
     <div class="form-group"><label class="form-label">Responsibilities (one per line)</label><textarea class="form-input" id="in_resp" rows="3">${esc((item?.responsibilities||[]).join('\n'))}</textarea></div>
     <div class="form-group"><label class="form-label">Achievements (one per line)</label><textarea class="form-input" id="in_ach" rows="2">${esc((item?.achievements||[]).join('\n'))}</textarea></div>
-    <div class="form-row"><div class="form-group"><label class="form-label">Certificate URL</label><input class="form-input" id="in_cert" value="${esc(item?.cert_url||'')}"></div><div class="form-group"><label class="form-label">Certificate Title</label><input class="form-input" id="in_certt" value="${esc(item?.cert_title||'')}"></div></div>
+    <div class="form-row">
+      ${makeImageUploadField({ id: 'in_cert', label: 'Certificate File (PDF, SVG, Image)', value: item?.cert_url||'', folder: 'internships', placeholder: 'assets/... or upload PDF/SVG' })}
+      <div class="form-group"><label class="form-label">Certificate Title</label><input class="form-input" id="in_certt" value="${esc(item?.cert_title||'')}"></div>
+    </div>
     <div class="form-row"><div class="form-group"><label class="form-label">Display Order</label><input class="form-input" type="number" id="in_order" value="${item?.display_order??0}"></div><div class="form-group"><label class="form-label">Active</label><label class="switch-wrap" style="margin-top:8px;"><input type="checkbox" class="switch" id="in_active" ${(item?.active??1)?'checked':''}><span>Active</span></label></div></div>
   `, async () => {
     const body = {
@@ -627,7 +711,7 @@ function openProjectModal(item) {
     <div class="form-group"><label class="form-label">Short Description</label><textarea class="form-input" id="pr_short" rows="2">${esc(item?.short_desc||'')}</textarea></div>
     <div class="form-group"><label class="form-label">Full Description</label><textarea class="form-input" id="pr_full" rows="3">${esc(item?.full_desc||'')}</textarea></div>
     <div class="form-row"><div class="form-group"><label class="form-label">Category</label><input class="form-input" id="pr_cat" value="${esc(item?.category||'')}"></div><div class="form-group"><label class="form-label">Role</label><input class="form-input" id="pr_role" value="${esc(item?.role||'')}"></div></div>
-    <div class="form-group"><label class="form-label">Image URL</label><input class="form-input" id="pr_img" value="${esc(item?.image_url||'')}"></div>
+    ${makeImageUploadField({ id: 'pr_img', label: 'Project Preview Image (SVG / PNG / JPG / WebP)', value: item?.image_url||'', folder: 'projects', placeholder: 'assets/projects/... or upload' })}
     <div class="form-row"><div class="form-group"><label class="form-label">GitHub URL</label><input class="form-input" id="pr_gh" value="${esc(item?.github_url||'#')}"></div><div class="form-group"><label class="form-label">Live Demo URL</label><input class="form-input" id="pr_demo" value="${esc(item?.demo_url||'#')}"></div></div>
     <div class="form-row"><div class="form-group"><label class="form-label">Status Text</label><input class="form-input" id="pr_status" value="${esc(item?.status||'Completed')}"></div><div class="form-group"><label class="form-label">Badge Label</label><input class="form-input" id="pr_badge" value="${esc(item?.badge_label||'Completed')}"></div></div>
     <div class="form-group"><label class="form-label">Tags (comma-separated)</label><input class="form-input" id="pr_tags" value="${esc((item?.tags||[]).join(', '))}"></div>
@@ -688,7 +772,7 @@ function openCertModal(item) {
     <div class="form-row"><div class="form-group"><label class="form-label">Issuer *</label><input class="form-input" id="ce_issuer" value="${esc(item?.issuer||'')}"></div><div class="form-group"><label class="form-label">Title *</label><input class="form-input" id="ce_title" value="${esc(item?.title||'')}"></div></div>
     <div class="form-row"><div class="form-group"><label class="form-label">Year</label><input class="form-input" id="ce_year" value="${esc(item?.year||'')}"></div><div class="form-group"><label class="form-label">Category</label><input class="form-input" id="ce_cat" value="${esc(item?.category||'Certification')}"></div></div>
     <div class="form-group"><label class="form-label">Description</label><textarea class="form-input" id="ce_desc" rows="3">${esc(item?.description||'')}</textarea></div>
-    <div class="form-group"><label class="form-label">Image URL (assets/certificates/...)</label><input class="form-input" id="ce_img" value="${esc(item?.image_url||'')}"></div>
+    ${makeImageUploadField({ id: 'ce_img', label: 'Certificate Preview Image (SVG / PNG / JPG / WebP)', value: item?.image_url||'', folder: 'certificates', placeholder: 'assets/certificates/... or upload' })}
     <div class="form-row"><div class="form-group"><label class="form-label">Credential ID</label><input class="form-input" id="ce_cid" value="${esc(item?.credential_id||'')}"></div><div class="form-group"><label class="form-label">Credential URL</label><input class="form-input" id="ce_curl" value="${esc(item?.credential_url||'')}"></div></div>
     <div class="form-row"><div class="form-group"><label class="form-label">Display Order</label><input class="form-input" type="number" id="ce_order" value="${item?.display_order??0}"></div><div class="form-group"><label class="form-label">Active</label><label class="switch-wrap" style="margin-top:8px;"><input type="checkbox" class="switch" id="ce_active" ${(item?.active??1)?'checked':''}><span>Active</span></label></div></div>
   `, async () => {

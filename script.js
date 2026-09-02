@@ -601,7 +601,7 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
   }
 
   function updateThumbs() {
-    document.querySelectorAll('.cert-thumb').forEach((btn, i) => {
+    thumbBtns.forEach((btn, i) => {
       const active = (i === selectedIdx);
       btn.classList.toggle('cert-thumb-active', active);
       btn.setAttribute('aria-selected', active ? 'true' : 'false');
@@ -610,7 +610,6 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
 
   function swapCard(idx) {
     const c = CERTS_DATA[idx];
-    if (!c) return;
     mainImg.src              = c.imageSrc;
     mainImg.alt              = c.alt;
     mainIssuer.textContent   = c.issuer;
@@ -651,15 +650,12 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
     goTo(selectedIdx + 1);
   });
 
-  /* Thumbnail clicks with delegation for dynamic thumbs */
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.cert-thumb');
-    if (btn) {
+  /* Thumbnail clicks */
+  thumbBtns.forEach((btn, i) => {
+    btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      const allThumbs = [...document.querySelectorAll('.cert-thumb')];
-      const i = allThumbs.indexOf(btn);
-      if (i !== -1) goTo(i);
-    }
+      goTo(i);
+    });
   });
 
   /* Keyboard arrows (disabled while expanded card is open) */
@@ -1111,36 +1107,39 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
 (function initEduTimeline() {
   const section = document.getElementById('education');
   const progressLine = document.getElementById('eduTimelineProgress');
-  if (!section) return;
+  const items = document.querySelectorAll('.edu-item');
+  if (!section || !items.length) return;
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (reduced) {
+    if (progressLine) progressLine.style.height = '100%';
+    items.forEach(item => {
+      const dot = item.querySelector('.edu-dot');
+      const card = item.querySelector('.edu-card');
+      if (dot) dot.classList.add('active');
+      if (card) card.classList.add('visible');
+    });
+    return;
+  }
+
+  const firstItem = items[0];
+  const lastItem = items[items.length - 1];
+
   let rafId = null;
 
   function updateScrollProgress() {
     rafId = null;
-    const items = document.querySelectorAll('.edu-item');
-    if (!items.length) return;
-
-    if (reduced) {
-      if (progressLine) progressLine.style.height = '100%';
-      items.forEach(item => {
-        const dot = item.querySelector('.edu-dot');
-        const card = item.querySelector('.edu-card');
-        if (dot) dot.classList.add('active');
-        if (card) card.classList.add('visible');
-      });
-      return;
-    }
-
-    const firstItem = items[0];
-    const lastItem = items[items.length - 1];
 
     const vh = window.innerHeight;
     const firstRect = firstItem.getBoundingClientRect();
     const lastRect = lastItem.getBoundingClientRect();
 
-    const triggerStart = vh * 0.85;
-    const triggerEnd = vh * 0.40;
+    // Trigger viewport heights:
+    // First item activates when its top reaches ~75% of viewport height
+    const triggerStart = vh * 0.75;
+    // Last item activates when its top reaches ~50% of viewport height
+    const triggerEnd = vh * 0.50;
 
     const maxLineHeight = lastItem.offsetTop - firstItem.offsetTop;
 
@@ -1162,12 +1161,14 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
     }
 
     // Update dot and card visibility per item based on scroll position
-    items.forEach((item) => {
+    items.forEach((item, idx) => {
       const dot = item.querySelector('.edu-dot');
       const card = item.querySelector('.edu-card');
       const itemOffset = item.offsetTop - firstItem.offsetTop;
+
+      // Item is active if progress line reaches its vertical offset or item top is above trigger threshold
       const itemRect = item.getBoundingClientRect();
-      const isReached = (currentLineHeight >= itemOffset - 10) || (itemRect.top <= triggerStart);
+      const isReached = (currentLineHeight >= itemOffset - 4) || (itemRect.top <= triggerStart);
 
       if (dot) {
         if (isReached) {
@@ -1198,9 +1199,6 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
 
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
-  document.addEventListener('portfolioDataReady', () => {
-    updateScrollProgress();
-  });
 
   // Initial calculation on load
   updateScrollProgress();
