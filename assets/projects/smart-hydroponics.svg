@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="hydroBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b"/>
+      <stop offset="50%" stop-color="#022c22"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="hydroGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#hydroBg)"/>
+  
+  <!-- Grid Lines -->
+  <path d="M0 75 h800 M0 150 h800 M0 225 h800 M0 300 h800 M0 375 h800" stroke="#10b981" stroke-opacity="0.08" stroke-width="1"/>
+  <path d="M133 0 v450 M266 0 v450 M400 0 v450 M533 0 v450 M666 0 v450" stroke="#10b981" stroke-opacity="0.08" stroke-width="1"/>
+  
+  <!-- Sensor Wave Graph -->
+  <path d="M 50 320 Q 150 180, 250 260 T 450 140 T 650 220 T 750 110" fill="none" stroke="url(#hydroGlow)" stroke-width="4" stroke-linecap="round"/>
+  <path d="M 50 320 Q 150 180, 250 260 T 450 140 T 650 220 T 750 110 L 750 400 L 50 400 Z" fill="url(#hydroGlow)" fill-opacity="0.12"/>
+  
+  <!-- Glowing Data Nodes -->
+  <circle cx="250" cy="260" r="7" fill="#10b981"/>
+  <circle cx="250" cy="260" r="14" fill="none" stroke="#10b981" stroke-opacity="0.5" stroke-width="2"/>
+  
+  <circle cx="450" cy="140" r="7" fill="#06b6d4"/>
+  <circle cx="450" cy="140" r="14" fill="none" stroke="#06b6d4" stroke-opacity="0.5" stroke-width="2"/>
+
+  <!-- Plant Leaf Icon Graphic -->
+  <g transform="translate(620, 50)">
+    <rect width="130" height="42" rx="21" fill="rgba(16, 185, 129, 0.2)" stroke="#10b981" stroke-width="1.5"/>
+    <text x="65" y="26" font-family="'Inter', sans-serif" font-size="14" font-weight="700" fill="#34d399" text-anchor="middle">LIVE SENSOR</text>
+  </g>
+
+  <!-- Title Graphic -->
+  <text x="60" y="100" font-family="'Inter', sans-serif" font-size="32" font-weight="800" fill="#ffffff">Smart Hydroponic System</text>
+  <text x="60" y="135" font-family="'Inter', sans-serif" font-size="16" font-weight="500" fill="#94a3b8">ESP32-CAM + Gemini AI Disease Detection &amp; Flask Dashboard</text>
+</svg>

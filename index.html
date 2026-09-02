@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Aditya — Developer Portfolio</title>
+<meta name="description" content="Portfolio of Aditya — Full-Stack Developer & AI Enthusiast.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<script>
+(function(){var t=localStorage.getItem('portfolio-theme'),s=window.matchMedia('(prefers-color-scheme:dark)').matches;if(t==='dark'||(!t&&s))document.documentElement.setAttribute('data-theme','dark');}());
+</script>
+</head>
+<body>
+
+<!-- HOME -->
+<section id="home" class="hero-sec">
+  <div class="hero-inner">
+
+    <!-- LEFT: text content -->
+    <div class="hero-left">
+      <p class="h-greet h-anim" data-ha="0">Hello, I'm</p>
+
+      <h1 class="h-name heading-font h-anim" data-ha="1">Aditya</h1>
+
+      <p class="h-role h-anim" data-ha="2">
+        Full-Stack Developer<br>
+        <span class="h-role-amp">&amp;</span> AI Enthusiast
+      </p>
+
+      <p class="h-bio h-anim" data-ha="3">
+        I build clean, scalable web applications and AI-powered solutions that turn ideas into useful digital experiences.
+      </p>
+
+      <div class="h-btns h-anim" data-ha="4">
+        <a href="#projects" class="btn btn-p hero-btn-p" id="hero-cta-work">View My Work →</a>
+        <a href="#contact" class="btn btn-s hero-btn-s" id="hero-cta-contact">Get in Touch</a>
+      </div>
+
+      <div class="h-chips h-anim" data-ha="5">
+        <span class="chip h-chip">React</span>
+        <span class="chip h-chip">Python</span>
+        <span class="chip h-chip">Node.js</span>
+        <span class="chip h-chip">AI / ML</span>
+        <span class="chip h-chip">IoT</span>
+      </div>
+
+      <div class="h-social h-anim" data-ha="6">
+        <a href="https://github.com/aditya" target="_blank" rel="noopener" class="h-soc-link" id="social-github" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="https://linkedin.com/in/aditya" target="_blank" rel="noopener" class="h-soc-link" id="social-linkedin" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          <span>LinkedIn</span>
+        </a>
+        <a href="mailto:aditya@example.com" class="h-soc-link" id="social-email" aria-label="Email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+          <span>Email</span>
+        </a>
+        <a href="#" class="h-soc-link" id="social-resume" aria-label="Resume" download>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span>Resume</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- RIGHT: portrait with light/dark cross-fade -->
+    <div class="hero-right h-anim" data-ha="7" id="heroPortraitWrap">
+      <div class="h-portrait-frame" id="heroPortraitFrame">
+        <!-- Light mode portrait (shown by default) -->
+        <img
+          src="portrait.png"
+          alt="Aditya — Full-Stack Developer portrait"
+          class="h-portrait-img h-portrait-light"
+          id="heroPortraitImg"
+          draggable="false"
+        >
+        <!-- Dark mode portrait (cross-fades in on dark) -->
+        <img
+          src="portrait-dark.png"
+          alt=""
+          aria-hidden="true"
+          class="h-portrait-img h-portrait-dark"
+          draggable="false"
+        >
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="page-sec ab-sec alt">
+  <div class="inner ab-inner">
+    
+    <!-- LEFT COLUMN: Tag, Agbalumo Heading, Stacked Image Cards -->
+    <div class="ab-col-left">
+      <p data-r class="tag ab-tag">01 — About Me</p>
+      <h2 data-r class="sh heading-font ab-heading">Who <span>am I?</span></h2>
+      
+      <div class="ab-images">
+        <!-- Card 1: Workspace Image -->
+        <div data-r class="ab-img-card">
+          <div class="ab-img-frame">
+            <img src="about-workspace.jpg" alt="Aditya's development workspace setup" class="ab-img" />
+            <div class="ab-caption">// my workspace</div>
+          </div>
+        </div>
+        
+        <!-- Card 2: Data Viz Image -->
+        <div data-r class="ab-img-card">
+          <div class="ab-img-frame">
+            <img src="about-dataviz.jpg" alt="Data analytics visualization dashboard" class="ab-img" />
+            <div class="ab-caption">// data viz</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- RIGHT COLUMN: Introduction, Paragraphs, Structured Info Card -->
+    <div class="ab-col-right">
+      <div data-r class="ab-intro">
+        Hey — I'm <span class="ab-hl">Aditya</span>. A Computer Science student and <span class="ab-hl">Full-Stack Developer &amp; AI Enthusiast</span> who enjoys building practical digital experiences.
+      </div>
+      
+      <div data-r class="ab-body">
+        <p class="bio-p">
+          My journey started with basic Python scripts and C++ fundamentals, which naturally evolved into building full-stack web applications, real-time IoT monitoring systems, and AI-integrated products end-to-end.
+        </p>
+        <p class="bio-p">
+          I focus on writing clean, scalable code and crafting thoughtful user experiences. Whether it's developing responsive web interfaces, engineering RESTful APIs, or experimenting with machine learning models, I love bringing ideas to life.
+        </p>
+        <p class="bio-p">
+          Outside of core software development, I explore automotive technology, experiment with embedded hardware like ESP32, and contribute to open-source projects.
+        </p>
+      </div>
+      
+      <!-- Structured Information Card -->
+      <div data-r class="card ab-info-card">
+        <div class="ab-info-row">
+          <span class="ab-lbl">Location</span>
+          <span class="ab-val">India 📍</span>
+        </div>
+        <div class="ab-info-row">
+          <span class="ab-lbl">Degree</span>
+          <span class="ab-val">B.Tech CS — 3rd Year</span>
+        </div>
+        <div class="ab-info-row">
+          <span class="ab-lbl">Status</span>
+          <span class="ab-val"><span class="badge">Seeking Internship 💼</span></span>
+        </div>
+        <div class="ab-info-row">
+          <span class="ab-lbl">Focus</span>
+          <span class="ab-val">Full-Stack + AI/ML + IoT</span>
+        </div>
+        <div class="ab-info-row">
+          <span class="ab-lbl">Languages</span>
+          <span class="ab-val">Python, JavaScript, C++, SQL, HTML/CSS</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-sec">
+  <div class="skills-inner">
+    <div class="skills-header" data-r>
+      <p class="tag">02 — Skills</p>
+      <h2 data-r class="sh heading-font">Technical <span>Skills</span></h2>
+    </div>
+
+    <!-- RADIAL CAROUSEL CONTAINER -->
+    <div class="radial-carousel-wrapper" id="radialSkillCarousel">
+      <!-- CENTER SELECTED SKILL CARD -->
+      <div class="skill-center-card" id="skillCenterCard">
+        <div class="center-logo-box">
+          <img id="centerSkillLogo" src="assets/skills/react.svg" alt="React" class="center-logo-img">
+        </div>
+        <h3 id="centerSkillName" class="center-skill-name">React</h3>
+        <span id="centerSkillCat" class="center-skill-cat">Frontend</span>
+        <p id="centerSkillDesc" class="center-skill-desc">Building interactive and component-based web interfaces.</p>
+      </div>
+
+      <!-- ORBITING RADIAL ITEMS CONTAINER -->
+      <div class="radial-orbit-container" id="radialOrbitContainer"></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERNSHIP -->
+<section id="internship" class="internship-sec alt">
+  <div class="internship-inner">
+    
+    <!-- SECTION HEADER -->
+    <div class="internship-header" data-r>
+      <p class="tag">03 — Internship</p>
+      <h2 data-r class="sh heading-font">Internship <span>Experience</span></h2>
+      <p class="internship-subtitle">Opportunities, experiences, and professional growth.</p>
+    </div>
+
+    <!-- EXPERIENCE ROLE & COMPANY HEADER BANNER -->
+    <div class="exp-header-card" data-r>
+      <div class="exp-header-left">
+        <div class="exp-logo-box">
+          <img src="assets/techcorp.svg" alt="TechCorp Solutions Logo" class="exp-logo-img">
+        </div>
+        <div class="exp-titles">
+          <h3 class="exp-role">Software Development Intern</h3>
+          <p class="exp-company">TechCorp Solutions Pvt. Ltd.</p>
+        </div>
+      </div>
+      <div class="exp-header-right">
+        <span class="exp-badge">Internship · Remote</span>
+        <span class="exp-date">Jun 2024 — Aug 2024</span>
+        <button type="button" class="exp-cert-btn" data-cert="assets/techcorp-internship-certificate.svg" data-cert-type="svg" data-role="Software Development Intern" data-company="TechCorp Solutions Pvt. Ltd." aria-label="View internship certificate">
+          <svg class="exp-cert-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
+          <span>View Certificate</span>
+          <span class="exp-cert-arr">→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 3 SEPARATE FEATURE CARDS GRID -->
+    <div class="exp-cards-grid">
+      
+      <div class="exp-card" data-r>
+        <div class="exp-card-body">
+          <div class="exp-icon-box">⚡</div>
+          <h4 class="exp-card-title">Backend &amp; APIs</h4>
+          <p class="exp-card-desc">Built RESTful APIs with Node.js &amp; Express, reducing server response latency by 30%.</p>
+        </div>
+        <div class="exp-card-tags">
+          <span class="tg">Node.js</span>
+          <span class="tg">Express</span>
+          <span class="tg">MongoDB</span>
+        </div>
+      </div>
+
+      <div class="exp-card" data-r>
+        <div class="exp-card-body">
+          <div class="exp-icon-box">📊</div>
+          <h4 class="exp-card-title">Real-Time Frontend</h4>
+          <p class="exp-card-desc">Developed a real-time analytics monitoring dashboard powered by React &amp; WebSocket.</p>
+        </div>
+        <div class="exp-card-tags">
+          <span class="tg">React</span>
+          <span class="tg">WebSocket</span>
+        </div>
+      </div>
+
+      <div class="exp-card" data-r>
+        <div class="exp-card-body">
+          <div class="exp-icon-box">☁️</div>
+          <h4 class="exp-card-title">Cloud &amp; DevOps</h4>
+          <p class="exp-card-desc">Containerized services using Docker and deployed to production on AWS EC2.</p>
+        </div>
+        <div class="exp-card-tags">
+          <span class="tg">Docker</span>
+          <span class="tg">AWS EC2</span>
+          <span class="tg">Git</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="projects-sec alt">
+  <div class="projects-inner">
+    
+    <!-- SECTION HEADER -->
+    <div class="projects-header" data-r>
+      <p class="tag">04 — Projects</p>
+      <h2 data-r class="sh heading-font">Featured <span>Projects</span></h2>
+      <p class="projects-subtitle">A selection of things I've built, experimented with, and shipped.</p>
+    </div>
+
+    <!-- 3-COLUMN PROJECT CARDS GRID -->
+    <div class="projects-grid">
+      
+      <!-- CARD 1: Smart Hydroponic System -->
+      <div class="prj-card" data-r>
+        <div class="prj-img-box">
+          <img src="assets/projects/smart-hydroponics.svg" alt="Smart Hydroponic System Preview" class="prj-img">
+          <span class="prj-badge status-live">Live Hardware</span>
+        </div>
+        <div class="prj-content">
+          <div class="prj-top-row">
+            <h3 class="prj-title">Smart Hydroponic System</h3>
+            <div class="prj-menu-wrap">
+              <button type="button" class="prj-menu-btn" aria-label="Project menu" data-prj="smart-hydroponics">⋯</button>
+              <div class="prj-dropdown">
+                <button type="button" class="prj-dropdown-item open-prj-modal" data-id="smart-hydroponics">View Details</button>
+                <a href="#" class="prj-dropdown-item">GitHub Repo ↗</a>
+              </div>
+            </div>
+          </div>
+          <p class="prj-category">IoT &amp; AI Automation / Web Dashboard</p>
+          <p class="prj-desc">IoT-powered farm with real-time sensor monitoring, AI plant disease detection via ESP32-CAM + Gemini Vision API, and a Flask dashboard.</p>
+
+          <div class="prj-meta">
+            <span class="prj-meta-item"><span class="prj-meta-lbl">Role:</span> Full Stack / IoT</span>
+            <span class="prj-meta-item"><span class="prj-meta-lbl">Type:</span> Hardware + Web</span>
+          </div>
+
+          <div class="prj-footer">
+            <div class="prj-tags">
+              <span class="tg">Flask</span>
+              <span class="tg">ESP32</span>
+              <span class="tg">Gemini API</span>
+              <span class="tg">MQTT</span>
+            </div>
+            <button type="button" class="prj-view-btn open-prj-modal" data-id="smart-hydroponics" aria-label="View Smart Hydroponic System project details">
+              <span>View Project</span>
+              <span class="prj-arr">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2: Quizer — AI Quiz Generator -->
+      <div class="prj-card" data-r>
+        <div class="prj-img-box">
+          <img src="assets/projects/quizer-ai.svg" alt="Quizer AI Quiz Generator Preview" class="prj-img">
+          <span class="prj-badge status-completed">Completed</span>
+        </div>
+        <div class="prj-content">
+          <div class="prj-top-row">
+            <h3 class="prj-title">Quizer — AI Quiz App</h3>
+            <div class="prj-menu-wrap">
+              <button type="button" class="prj-menu-btn" aria-label="Project menu" data-prj="quizer">⋯</button>
+              <div class="prj-dropdown">
+                <button type="button" class="prj-dropdown-item open-prj-modal" data-id="quizer">View Details</button>
+                <a href="#" class="prj-dropdown-item">GitHub Repo ↗</a>
+              </div>
+            </div>
+          </div>
+          <p class="prj-category">Full Stack AI Web Application</p>
+          <p class="prj-desc">Converts PDFs, images and text into interactive quizzes with MCQ detection, performance analytics, and a subject library.</p>
+
+          <div class="prj-meta">
+            <span class="prj-meta-item"><span class="prj-meta-lbl">Role:</span> Full Stack Engineer</span>
+            <span class="prj-meta-item"><span class="prj-meta-lbl">Type:</span> Web Application</span>
+          </div>
+
+          <div class="prj-footer">
+            <div class="prj-tags">
+              <span class="tg">React</span>
+              <span class="tg">FastAPI</span>
+              <span class="tg">Gemini</span>
+              <span class="tg">OCR</span>
+            </div>
+            <button type="button" class="prj-view-btn open-prj-modal" data-id="quizer" aria-label="View Quizer AI project details">
+              <span>View Project</span>
+              <span class="prj-arr">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3: Porsche GT3 RS Landing -->
+      <div class="prj-card" data-r>
+        <div class="prj-img-box">
+          <img src="assets/projects/porsche-gt3.svg" alt="Porsche GT3 RS Landing Preview" class="prj-img">
+          <span class="prj-badge status-live">Live Demo</span>
+        </div>
+        <div class="prj-content">
+          <div class="prj-top-row">
+            <h3 class="prj-title">Porsche GT3 RS Landing</h3>
+            <div class="prj-menu-wrap">
+              <button type="button" class="prj-menu-btn" aria-label="Project menu" data-prj="porsche-gt3">⋯</button>
+              <div class="prj-dropdown">
+                <button type="button" class="prj-dropdown-item open-prj-modal" data-id="porsche-gt3">View Details</button>
+                <a href="#" class="prj-dropdown-item">GitHub Repo ↗</a>
+              </div>
+            </div>
+          </div>
+          <p class="prj-category">Interactive Web / Canvas Engine</p>
+          <p class="prj-desc">Cinematic scroll-driven automotive site with 240-frame canvas engine, GSAP parallax, SVG aerodynamics callouts, and HUD navigation.</p>
+
+          <div class="prj-meta">
+            <span class="prj-meta-item"><span class="prj-meta-lbl">Role:</span> Frontend Specialist</span>
+            <span class="prj-meta-item"><span class="prj-meta-lbl">Type:</span> Creative Web</span>
+          </div>
+
+          <div class="prj-footer">
+            <div class="prj-tags">
+              <span class="tg">React</span>
+              <span class="tg">GSAP</span>
+              <span class="tg">Canvas</span>
+              <span class="tg">Vite</span>
+            </div>
+            <button type="button" class="prj-view-btn open-prj-modal" data-id="porsche-gt3" aria-label="View Porsche GT3 RS project details">
+              <span>View Project</span>
+              <span class="prj-arr">→</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- CERTIFICATES -->
+<section id="certificates" class="page-sec cert-sec">
+  <div class="inner">
+    <div class="sec-head">
+      <p data-r class="tag">05 — CERTIFICATES</p>
+      <h2 data-r class="sh heading-font">Certifi<span>cations</span></h2>
+      <p data-r class="cert-subtitle">A collection of certifications, courses, and achievements that I've completed throughout my learning journey.</p>
+    </div>
+
+    <!-- CERTIFICATE CAROUSEL -->
+    <div class="cert-carousel" id="certCarousel">
+
+      <!-- Main row: ← large card → -->
+      <div class="cert-carousel-row">
+
+        <button class="cert-arrow" id="certPrevBtn" aria-label="Previous certificate">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"/>
+          </svg>
+        </button>
+
+        <div class="cert-main-wrap" id="certMainWrap">
+          <!-- Single large card — data updated by carousel JS; FLIP morph untouched -->
+          <div class="epc-card epc-card-main"
+               id="certMainCard"
+               data-cert-id="google-python"
+               tabindex="0"
+               role="button"
+               aria-label="View Google Crash Course on Python certificate details">
+            <div class="epc-img-wrap">
+              <img id="certMainImg"
+                   src="assets/certificates/google-python.svg"
+                   alt="Crash Course on Python"
+                   class="epc-img">
+              <div class="epc-grad"></div>
+            </div>
+            <div class="epc-bottom">
+              <span class="epc-issuer" id="certMainIssuer">Google / Coursera</span>
+              <h3 class="epc-title" id="certMainTitle">Crash Course on Python</h3>
+            </div>
+          </div>
+        </div>
+
+        <button class="cert-arrow" id="certNextBtn" aria-label="Next certificate">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </button>
+
+      </div>
+
+      <!-- Thumbnail strip -->
+      <div class="cert-thumbs" id="certThumbs" role="tablist" aria-label="Certificate thumbnails">
+
+        <button class="cert-thumb cert-thumb-active" data-idx="0"
+                role="tab" aria-selected="true"
+                aria-label="Google Crash Course on Python">
+          <img src="assets/certificates/google-python.svg" alt="" loading="lazy">
+        </button>
+
+        <button class="cert-thumb" data-idx="1"
+                role="tab" aria-selected="false"
+                aria-label="Machine Learning Specialization">
+          <img src="assets/certificates/deeplearning-ml.svg" alt="" loading="lazy">
+        </button>
+
+        <button class="cert-thumb" data-idx="2"
+                role="tab" aria-selected="false"
+                aria-label="Front-End Developer Professional">
+          <img src="assets/certificates/meta-frontend.svg" alt="" loading="lazy">
+        </button>
+
+        <button class="cert-thumb" data-idx="3"
+                role="tab" aria-selected="false"
+                aria-label="Intro to Cybersecurity">
+          <img src="assets/certificates/cisco-cybersecurity.svg" alt="" loading="lazy">
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" class="page-sec edu-sec">
+  <div class="inner">
+    <p data-r class="tag">07 — Education</p>
+    <h2 data-r class="sh heading-font">Edu<span>cation</span></h2>
+    
+    <!-- VERTICAL TIMELINE -->
+    <div class="edu-timeline-wrap" id="eduTimelineWrap">
+      <!-- Base timeline track -->
+      <div class="edu-timeline-base" id="eduTimelineBase"></div>
+      <!-- Progress animated timeline track -->
+      <div class="edu-timeline-progress" id="eduTimelineProgress"></div>
+
+      <div class="edu-timeline-items">
+
+        <!-- ITEM 1: B.Tech -->
+        <div class="edu-item" data-edu-idx="0">
+          <div class="edu-dot-wrap">
+            <div class="edu-dot" id="eduDot-0"></div>
+          </div>
+          <div class="edu-card" id="eduCard-0">
+            <div class="edu-card-header">
+              <span class="edu-year">2022 – 2026</span>
+              <span class="edu-badge">CGPA 8.6 / 10</span>
+            </div>
+            <h3 class="ed">B.Tech — Computer Science &amp; Engineering</h3>
+            <p class="ei">XYZ University of Technology</p>
+            <div class="tags" style="margin-top:14px">
+              <span class="tg">DSA</span>
+              <span class="tg">OS</span>
+              <span class="tg">DBMS</span>
+              <span class="tg">Computer Networks</span>
+              <span class="tg">Machine Learning</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ITEM 2: 12th Grade -->
+        <div class="edu-item" data-edu-idx="1">
+          <div class="edu-dot-wrap">
+            <div class="edu-dot" id="eduDot-1"></div>
+          </div>
+          <div class="edu-card" id="eduCard-1">
+            <div class="edu-card-header">
+              <span class="edu-year">2020 – 2022</span>
+              <span class="edu-badge">92.4%</span>
+            </div>
+            <h3 class="ed">Higher Secondary Certificate (12th Grade)</h3>
+            <p class="ei">ABC Junior College</p>
+            <p class="ey" style="margin-top:8px">Physics, Chemistry &amp; Mathematics</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="page-sec alt">
+  <div class="inner">
+    <p data-r class="tag">08 — Contact</p>
+    <h2 data-r class="sh heading-font">Get in <span>Touch</span></h2>
+    <div class="cog">
+      <div data-r>
+        <p class="ci2">Open to internships, freelance projects, and meaningful collaboration. I typically respond within 24 hours — let's build something great together.</p>
+        <div class="cl">
+          <a href="mailto:aditya@example.com" class="ca">
+            <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+            aditya@example.com
+          </a>
+          <a href="#" class="ca">
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            linkedin.com/in/aditya
+          </a>
+          <a href="#" class="ca">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+            github.com/aditya
+          </a>
+        </div>
+      </div>
+      <div data-r class="card">
+        <form class="form" onsubmit="return false">
+          <input type="text" placeholder="Your Name" aria-label="Name">
+          <input type="email" placeholder="Your Email" aria-label="Email">
+          <textarea placeholder="Your Message" aria-label="Message"></textarea>
+          <button type="submit" class="btn btn-p" style="justify-content:center">Send Message →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FLOATING NAV -->
+<div class="nav-float" role="navigation" aria-label="Site navigation">
+  <nav class="nav-pill" id="floatingNav">
+    <a href="#home" class="nav-item active" data-section="home" aria-current="page" aria-label="Home">
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+      <span class="nl">Home</span>
+    </a>
+    <a href="#about" class="nav-item" data-section="about" aria-label="About">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.582-7 8-7s8 3 8 7"/></svg>
+      <span class="nl">About</span>
+    </a>
+    <a href="#skills" class="nav-item" data-section="skills" aria-label="Skills">
+      <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      <span class="nl">Skills</span>
+    </a>
+    <a href="#internship" class="nav-item" data-section="internship" aria-label="Internship">
+      <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="8" y1="14" x2="16" y2="14"/></svg>
+      <span class="nl">Internship</span>
+    </a>
+    <a href="#projects" class="nav-item" data-section="projects" aria-label="Projects">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span class="nl">Projects</span>
+    </a>
+    <a href="#certificates" class="nav-item" data-section="certificates" aria-label="Certificates">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+      <span class="nl">Certificates</span>
+    </a>
+    <a href="#education" class="nav-item" data-section="education" aria-label="Education">
+      <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      <span class="nl">Education</span>
+    </a>
+    <a href="#contact" class="nav-item" data-section="contact" aria-label="Contact">
+      <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+      <span class="nl">Contact</span>
+    </a>
+    <div class="nav-sep" aria-hidden="true"></div>
+    <button class="t-btn" id="themeToggle" aria-label="Toggle light/dark mode">
+      <svg class="t-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg class="t-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+    </button>
+  </nav>
+</div>
+
+<!-- CERTIFICATE POPUP MODAL -->
+<div id="certModal" class="cert-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="View internship certificate">
+  <div class="cert-modal-container">
+    <div class="cert-modal-header">
+      <div class="cert-modal-titles">
+        <h3 id="certModalRole" class="cert-modal-role">Software Development Intern</h3>
+        <p id="certModalCompany" class="cert-modal-company">TechCorp Solutions Pvt. Ltd.</p>
+      </div>
+      <button type="button" id="certModalClose" class="cert-modal-close" aria-label="Close certificate">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="cert-modal-body">
+      <img id="certModalImg" src="" alt="Internship Certificate Preview" class="cert-modal-media" style="display:none;">
+      <iframe id="certModalPdf" src="" title="Certificate Preview" class="cert-modal-media" style="display:none;"></iframe>
+      <object id="certModalObj" data="" type="image/svg+xml" class="cert-modal-media" style="display:none;"></object>
+    </div>
+  </div>
+</div>
+<!-- PROJECT DETAILS POPUP MODAL -->
+<div id="prjModal" class="cert-modal-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Project details modal">
+  <div class="cert-modal-container prj-modal-container">
+    <div class="cert-modal-header">
+      <div class="cert-modal-titles">
+        <h3 id="prjModalTitle" class="cert-modal-role">Project Title</h3>
+        <p id="prjModalCategory" class="cert-modal-company">Category</p>
+      </div>
+      <button type="button" id="prjModalClose" class="cert-modal-close" aria-label="Close project modal">
+        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="prj-modal-body">
+      <div class="prj-modal-banner-box">
+        <img id="prjModalImg" src="" alt="Project Banner Preview" class="prj-modal-banner">
+      </div>
+      <div class="prj-modal-info">
+        <p id="prjModalDesc" class="prj-modal-desc"></p>
+        <div class="prj-modal-meta-grid">
+          <div class="prj-modal-meta-item">
+            <span class="meta-label">Role</span>
+            <span id="prjModalRole" class="meta-val">Developer</span>
+          </div>
+          <div class="prj-modal-meta-item">
+            <span class="meta-label">Status</span>
+            <span id="prjModalStatus" class="meta-val">Completed</span>
+          </div>
+        </div>
+        <div class="prj-modal-section">
+          <h4 class="prj-modal-subhead">Technologies Used</h4>
+          <div id="prjModalTags" class="prj-tags"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXPANDABLE CERTIFICATE CARD SYSTEM -->
+<!-- Morph ghost: this element flies from the small card to the center -->
+<div id="epcMorphGhost" class="epc-morph-ghost" aria-hidden="true"></div>
+
+<!-- Backdrop (blurred, dark) -->
+<div id="epcBackdrop" class="epc-backdrop" aria-hidden="true"></div>
+
+<!-- Expanded card (revealed after morph settles) -->
+<div id="epcExpanded" class="epc-expanded" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Expanded certificate view">
+
+  <div class="epc-exp-body">
+    <button type="button" id="epcExpandedClose" class="epc-exp-close" aria-label="Close certificate details">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <!-- LEFT: certificate image -->
+    <div class="epc-exp-left">
+      <div class="epc-exp-img-wrap">
+        <img id="epcExpImg" src="" alt="Certificate" class="epc-exp-img">
+      </div>
+    </div>
+
+    <!-- RIGHT: certificate information -->
+    <div class="epc-exp-right">
+      <span id="epcExpCategory" class="epc-exp-tag">CERTIFICATION</span>
+      <p id="epcExpIssuer" class="epc-exp-issuer"></p>
+      <h3 id="epcExpTitle" class="epc-exp-title"></h3>
+      <p id="epcExpDesc" class="epc-exp-desc"></p>
+
+      <div class="epc-exp-meta">
+        <div class="epc-meta-item">
+          <span class="epc-meta-lbl">Issuer</span>
+          <span id="epcExpMetaIssuer" class="epc-meta-val"></span>
+        </div>
+        <div class="epc-meta-item">
+          <span class="epc-meta-lbl">Completed</span>
+          <span id="epcExpMetaDate" class="epc-meta-val"></span>
+        </div>
+        <div class="epc-meta-item">
+          <span class="epc-meta-lbl">Category</span>
+          <span id="epcExpMetaCategory" class="epc-meta-val"></span>
+        </div>
+        <div class="epc-meta-item">
+          <span class="epc-meta-lbl">Credential ID</span>
+          <span id="epcExpMetaCred" class="epc-meta-val"></span>
+        </div>
+      </div>
+
+      <button type="button" id="epcViewCertBtn" class="epc-view-cert-btn">
+        <span>View Certificate</span>
+        <span class="epc-arr">→</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- FULL-SCREEN CERTIFICATE VIEWER (second overlay on top) -->
+<div id="certViewer" class="cert-viewer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Full certificate preview">
+  <div class="cert-viewer-backdrop" id="certViewerBackdrop"></div>
+  <div class="cert-viewer-inner">
+    <button type="button" id="certViewerClose" class="cert-viewer-close" aria-label="Close certificate viewer">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <img id="certViewerImg" src="" alt="Certificate full view" class="cert-viewer-img">
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
