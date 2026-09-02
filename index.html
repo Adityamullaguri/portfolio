@@ -581,11 +581,11 @@
         </div>
       </div>
       <div data-r class="card">
-        <form class="form" onsubmit="return false">
-          <input type="text" placeholder="Your Name" aria-label="Name">
-          <input type="email" placeholder="Your Email" aria-label="Email">
-          <textarea placeholder="Your Message" aria-label="Message"></textarea>
-          <button type="submit" class="btn btn-p" style="justify-content:center">Send Message →</button>
+        <form class="form" id="contactForm">
+          <input type="text" id="contactName" placeholder="Your Name" aria-label="Name" required>
+          <input type="email" id="contactEmail" placeholder="Your Email" aria-label="Email" required>
+          <textarea id="contactMessage" placeholder="Your Message" aria-label="Message" required></textarea>
+          <button type="submit" id="contactSubmit" class="btn btn-p" style="justify-content:center">Send Message →</button>
         </form>
       </div>
     </div>
@@ -763,6 +763,7 @@
   </div>
 </div>
 
+<script src="data.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

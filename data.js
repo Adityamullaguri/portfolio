@@ -385,38 +385,60 @@
   // ── Apply Contact Data ──
   function applyContactData() {
     const c = window.__PD.contact;
-    if (!c) return;
     const qs = sel => document.querySelector(sel);
-    if (c.availability_text || c.contact_desc) {
+    if (c && (c.availability_text || c.contact_desc)) {
       const el = qs('.ci2');
       if (el) el.textContent = `${c.availability_text || ''} ${c.contact_desc || ''}`.trim();
     }
     // Wire contact form to API
-    const form = qs('.form');
-    if (form && c.form_enabled !== 0) {
-      form.onsubmit = async (e) => {
+    const form = document.getElementById('contactForm') || qs('.form');
+    if (form && (!c || c.form_enabled !== 0)) {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const btn = form.querySelector('button[type="submit"]');
-        const name = form.querySelector('input[aria-label="Name"]')?.value?.trim();
-        const email = form.querySelector('input[aria-label="Email"]')?.value?.trim();
-        const message = form.querySelector('textarea')?.value?.trim();
-        if (!name || !email || !message) { alert('Please fill in all fields.'); return; }
-        if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
-        try {
-          const res = await fetch('/api/contact', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name,email,message}) });
-          const data = await res.json();
-          if (data.success) {
-            if (btn) btn.textContent = '✓ Message Sent!';
-            form.reset();
-            setTimeout(() => { if (btn) { btn.textContent = 'Send Message →'; btn.disabled = false; } }, 3000);
-          } else {
-            throw new Error(data.error || 'Failed to send');
-          }
-        } catch(err) {
-          alert('Failed to send message: ' + err.message);
-          if (btn) { btn.textContent = 'Send Message →'; btn.disabled = false; }
+        const btn = document.getElementById('contactSubmit') || form.querySelector('button[type="submit"]');
+        const nameInput = document.getElementById('contactName') || form.querySelector('input[type="text"]');
+        const emailInput = document.getElementById('contactEmail') || form.querySelector('input[type="email"]');
+        const msgInput = document.getElementById('contactMessage') || form.querySelector('textarea');
+
+        const name = nameInput ? nameInput.value.trim() : '';
+        const email = emailInput ? emailInput.value.trim() : '';
+        const message = msgInput ? msgInput.value.trim() : '';
+
+        if (!name || !email || !message) {
+          alert('Please fill in your name, email, and message.');
+          return;
         }
-      };
+
+        const originalBtnText = btn ? btn.textContent : 'Send Message →';
+        if (btn) { btn.textContent = 'Sending…'; btn.disabled = true; }
+
+        try {
+          const res = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, message })
+          });
+          const data = await res.json();
+          if (res.ok && data.success) {
+            if (btn) btn.textContent = '✓ Message Sent Successfully!';
+            form.reset();
+            setTimeout(() => {
+              if (btn) {
+                btn.textContent = originalBtnText;
+                btn.disabled = false;
+              }
+            }, 3500);
+          } else {
+            throw new Error(data.error || 'Failed to send message');
+          }
+        } catch (err) {
+          alert('Error: ' + err.message);
+          if (btn) {
+            btn.textContent = originalBtnText;
+            btn.disabled = false;
+          }
+        }
+      });
     }
   }
 

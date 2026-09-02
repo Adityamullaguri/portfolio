@@ -278,7 +278,9 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
    SKILLS SECTION: RADIAL CAROUSEL
 ══════════════════════════════════════ */
 (function initSkillRadialCarousel() {
-  const skills = [
+  const skills = (window.__PD && window.__PD.skills && window.__PD.skills.length)
+    ? window.__PD.skills
+    : [
     {
       id: "react",
       name: "React",
@@ -540,7 +542,9 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
 ══════════════════════════════════════ */
 (function initCertCarousel() {
 
-  const CERTS_DATA = [
+  const CERTS_DATA = (window.__PD && window.__PD.certsData && window.__PD.certsData.length)
+    ? window.__PD.certsData
+    : [
     {
       id: 'google-python',
       imageSrc: 'assets/certificates/google-python.svg',
@@ -671,7 +675,9 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
    expanded panel fades in, closes in reverse.
 ══════════════════════════════════════ */
 (function initExpandableCards() {
-  const CERTS = {
+  const CERTS = (window.__PD && window.__PD.certs && Object.keys(window.__PD.certs).length)
+    ? window.__PD.certs
+    : {
     'google-python': {
       imageSrc: 'assets/certificates/google-python.svg',
       title: 'Crash Course on Python',
@@ -980,7 +986,9 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
    PROJECTS: Card Menus & Project Details Modal
 ══════════════════════════════════════ */
 (function initProjectSystem() {
-  const projectsData = {
+  const projectsData = (window.__PD && window.__PD.projects && Object.keys(window.__PD.projects).length)
+    ? window.__PD.projects
+    : {
     "smart-hydroponics": {
       title: "Smart Hydroponic System",
       category: "IoT & AI Automation / Web Dashboard",
