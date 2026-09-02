@@ -385,7 +385,9 @@
         const key = l.platform.toLowerCase();
         const svg = l.icon_svg || svgMap[key] || svgMap['email'];
         const isEmail = l.url.startsWith('mailto:') || key === 'email';
-        return `<a href="${l.url}" ${!isEmail ? 'target="_blank" rel="noopener"' : ''} class="h-soc-link" id="social-${key}" aria-label="${l.platform}">
+        const isResume = key.includes('resume') || key.includes('cv');
+        const downloadAttr = isResume && l.url && l.url !== '#' ? 'download' : '';
+        return `<a href="${l.url}" ${!isEmail ? 'target="_blank" rel="noopener"' : ''} ${downloadAttr} class="h-soc-link" id="social-${key}" aria-label="${l.platform}">
           ${svg}<span>${l.platform}</span>
         </a>`;
       }).join('');
@@ -398,8 +400,10 @@
         const key = l.platform.toLowerCase();
         const svg = l.icon_svg || svgMap[key] || svgMap['email'];
         const isEmail = l.url.startsWith('mailto:') || key === 'email';
+        const isResume = key.includes('resume') || key.includes('cv');
+        const downloadAttr = isResume && l.url && l.url !== '#' ? 'download' : '';
         const label = key === 'email' ? l.url.replace('mailto:', '') : l.url.replace(/^https?:\/\//,'').replace(/\/$/,'');
-        return `<a href="${l.url}" ${!isEmail ? 'target="_blank" rel="noopener"' : ''} class="ca">
+        return `<a href="${l.url}" ${!isEmail ? 'target="_blank" rel="noopener"' : ''} ${downloadAttr} class="ca">
           ${svg}${label}
         </a>`;
       }).join('');

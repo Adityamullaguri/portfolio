@@ -912,23 +912,78 @@ async function renderNavbar() {
   });
 }
 
-// ── SOCIAL LINKS ──
+// ── SOCIAL LINKS & RESUME ──
 async function renderSocial() {
   const data = await api('GET', '/api/admin/social-links');
+  const resumeLink = data.find(s => s.platform.toLowerCase().includes('resume') || s.platform.toLowerCase().includes('cv'));
+
   content.innerHTML = `
     <div class="page-fade">
-      <div class="section-hd"><div><h2>Social Links</h2></div>
-        <button class="btn btn-primary" id="addBtn">+ Add Link</button>
+      <div class="section-hd">
+        <div>
+          <h2>Social Links & Resume</h2>
+          <p>Manage your social profiles and uploaded resume / CV file</p>
+        </div>
+        <button class="btn btn-primary" id="addBtn">+ Add Social Link</button>
       </div>
+
+      <!-- RESUME / CV SPECIAL CARD -->
+      <div class="card" style="margin-bottom:24px;border:1px solid var(--br);background:linear-gradient(145deg, var(--sf), var(--sf2));">
+        <div class="card-header" style="display:flex;align-items:center;justify-content:between;gap:12px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="width:38px;height:38px;border-radius:10px;background:var(--ac-dim);display:flex;align-items:center;justify-content:center;color:var(--ac);">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            </div>
+            <div>
+              <div style="font-size:15px;font-weight:600;color:var(--hi);">Resume / CV Document</div>
+              <div style="font-size:12px;color:var(--lo);">Connected to the "Resume" button in your portfolio header</div>
+            </div>
+          </div>
+          <div>
+            ${resumeLink && resumeLink.url && resumeLink.url !== '#' ? '<span class="badge-active">Configured</span>' : '<span class="badge-inactive">Not Uploaded</span>'}
+          </div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding-top:8px;">
+          <div style="font-size:13px;color:var(--md);flex:1;min-width:260px;">
+            <strong>Current File / Link:</strong>
+            <span style="color:var(--ac);word-break:break-all;margin-left:6px;">${resumeLink && resumeLink.url ? esc(resumeLink.url) : 'None (links to #)'}</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            ${resumeLink && resumeLink.url && resumeLink.url !== '#' ? `
+              <a href="${esc(resumeLink.url)}" target="_blank" download class="btn btn-secondary btn-sm" style="display:inline-flex;align-items:center;gap:4px;">
+                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download / View
+              </a>
+            ` : ''}
+            <label class="btn btn-primary btn-sm" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+              <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload New Resume (PDF)
+              <input type="file" id="directResumeUpload" accept="application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" style="display:none">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ALL SOCIAL LINKS TABLE -->
       <div class="card">
-        ${data.length === 0 ? '<div class="empty-state"><h3>No social links</h3></div>' : `
+        <div class="card-header"><span class="card-title">All Social & Platform Links</span></div>
+        ${data.length === 0 ? '<div class="empty-state"><h3>No links yet</h3><p>Add your GitHub, LinkedIn, Resume, or other profiles.</p></div>' : `
         <div class="table-wrap"><table class="table">
-          <thead><tr><th>Platform</th><th>URL</th><th>Order</th><th>Active</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Platform</th><th>URL / Target</th><th>Order</th><th>Status</th><th>Actions</th></tr></thead>
           <tbody>${data.map(s => `<tr>
-            <td><strong>${esc(s.platform)}</strong></td>
-            <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><a href="${esc(s.url)}" target="_blank" style="color:var(--ac)">${esc(s.url)}</a></td>
+            <td>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="width:24px;height:24px;border-radius:6px;background:var(--sf3);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ac);">
+                  ${esc(s.platform.charAt(0).toUpperCase())}
+                </span>
+                <strong>${esc(s.platform)}</strong>
+              </div>
+            </td>
+            <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+              <a href="${esc(s.url)}" target="_blank" style="color:var(--ac);text-decoration:underline;">${esc(s.url)}</a>
+            </td>
             <td>${s.display_order}</td>
-            <td><span class="${s.active ? 'badge-active' : 'badge-inactive'}">${s.active ? 'Active' : 'Inactive'}</span></td>
+            <td><span class="${s.active ? 'badge-active' : 'badge-inactive'}">${s.active ? 'Active' : 'Hidden'}</span></td>
             <td><div style="display:flex;gap:6px;">
               <button class="btn btn-secondary btn-sm edit-sl" data-id="${s.id}">Edit</button>
               <button class="btn btn-danger btn-sm del-sl" data-id="${s.id}" data-name="${esc(s.platform)}">Delete</button>
@@ -937,6 +992,49 @@ async function renderSocial() {
         </table></div>`}
       </div>
     </div>`;
+
+  // Quick Resume Upload Handler
+  const resumeUploadInp = document.getElementById('directResumeUpload');
+  if (resumeUploadInp) {
+    resumeUploadInp.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const fd = new FormData();
+      fd.append('file', file);
+      toast('Uploading resume…', 'info');
+      try {
+        const res = await fetch('/api/admin/media/upload?folder=misc', {
+          method: 'POST',
+          body: fd,
+          credentials: 'same-origin'
+        });
+        const uploadRes = await res.json();
+        if (!res.ok) throw new Error(uploadRes.error || 'Failed to upload');
+
+        // Save into social_links table
+        if (resumeLink) {
+          await api('PUT', `/api/admin/social-links/${resumeLink.id}`, {
+            platform: resumeLink.platform || 'Resume',
+            url: uploadRes.url,
+            display_order: resumeLink.display_order ?? 3,
+            active: 1
+          });
+        } else {
+          await api('POST', '/api/admin/social-links', {
+            platform: 'Resume',
+            url: uploadRes.url,
+            display_order: 3,
+            active: 1
+          });
+        }
+        toast('Resume uploaded and updated successfully!');
+        renderSocial();
+      } catch (err) {
+        toast(`Resume upload failed: ${err.message}`, 'error');
+      }
+    });
+  }
+
   document.getElementById('addBtn').addEventListener('click', () => openSocialModal(null));
   document.querySelectorAll('.edit-sl').forEach(btn => {
     btn.addEventListener('click', () => openSocialModal(data.find(d => d.id == btn.dataset.id)));
@@ -948,15 +1046,81 @@ async function renderSocial() {
 
 function openSocialModal(item) {
   const isNew = !item;
-  openFormModal(isNew ? 'Add Social Link' : 'Edit Social Link', `
-    <div class="form-row"><div class="form-group"><label class="form-label">Platform *</label><input class="form-input" id="sl_plat" placeholder="GitHub, LinkedIn, Email…" value="${esc(item?.platform||'')}"></div><div class="form-group"><label class="form-label">URL *</label><input class="form-input" id="sl_url" value="${esc(item?.url||'')}"></div></div>
-    <div class="form-row"><div class="form-group"><label class="form-label">Display Order</label><input class="form-input" type="number" id="sl_order" value="${item?.display_order??0}"></div><div class="form-group"><label class="form-label">Active</label><label class="switch-wrap" style="margin-top:8px;"><input type="checkbox" class="switch" id="sl_active" ${(item?.active??1)?'checked':''}><span>Active</span></label></div></div>
+  const presets = [
+    { name: 'GitHub', defaultUrl: 'https://github.com/username' },
+    { name: 'LinkedIn', defaultUrl: 'https://linkedin.com/in/username' },
+    { name: 'Email', defaultUrl: 'mailto:name@example.com' },
+    { name: 'Resume', defaultUrl: '/uploads/misc/resume.pdf' },
+    { name: 'Twitter', defaultUrl: 'https://x.com/username' },
+    { name: 'YouTube', defaultUrl: 'https://youtube.com/@channel' },
+    { name: 'Instagram', defaultUrl: 'https://instagram.com/username' },
+    { name: 'LeetCode', defaultUrl: 'https://leetcode.com/username' }
+  ];
+
+  openFormModal(isNew ? 'Add Social Link / Resume' : 'Edit Social Link / Resume', `
+    <div class="form-group">
+      <label class="form-label">Platform Presets (click to autofill)</label>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+        ${presets.map(p => `
+          <button type="button" class="btn btn-secondary btn-sm preset-btn" data-name="${p.name}" data-url="${p.defaultUrl}" style="font-size:11px;padding:3px 8px;">
+            + ${p.name}
+          </button>
+        `).join('')}
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Platform Name *</label>
+        <input class="form-input" id="sl_plat" placeholder="e.g. GitHub, LinkedIn, Resume, Email…" value="${esc(item?.platform||'')}">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Display Order</label>
+        <input class="form-input" type="number" id="sl_order" value="${item?.display_order??0}">
+      </div>
+    </div>
+    ${makeImageUploadField({
+      id: 'sl_url',
+      label: 'Target URL or Document File (Upload PDF/Doc or Enter Link) *',
+      value: item?.url||'',
+      folder: 'misc',
+      accept: 'application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,image/png,image/jpeg,image/webp,image/svg+xml',
+      placeholder: 'https://..., mailto:..., or click Upload for Resume PDF'
+    })}
+    <div class="form-group">
+      <label class="form-label">Active</label>
+      <label class="switch-wrap" style="margin-top:6px;">
+        <input type="checkbox" class="switch" id="sl_active" ${(item?.active??1)?'checked':''}>
+        <span>Visible on Portfolio</span>
+      </label>
+    </div>
   `, async () => {
-    const body = { platform: v('sl_plat'), url: v('sl_url'), display_order: +v('sl_order'), active: document.getElementById('sl_active').checked };
-    if (!body.platform || !body.url) throw new Error('Platform and URL required');
-    if (isNew) { await api('POST', '/api/admin/social-links', body); toast('Social link added!'); }
-    else { await api('PUT', `/api/admin/social-links/${item.id}`, body); toast('Social link updated!'); }
-    closeFormModal(); renderSocial();
+    const body = {
+      platform: v('sl_plat'),
+      url: v('sl_url'),
+      display_order: +v('sl_order'),
+      active: document.getElementById('sl_active').checked
+    };
+    if (!body.platform || !body.url) throw new Error('Platform and URL are required');
+    if (isNew) {
+      await api('POST', '/api/admin/social-links', body);
+      toast('Social link added!');
+    } else {
+      await api('PUT', `/api/admin/social-links/${item.id}`, body);
+      toast('Social link updated!');
+    }
+    closeFormModal();
+    renderSocial();
+  });
+
+  // Preset button click listener inside modal
+  document.querySelectorAll('.preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const platInp = document.getElementById('sl_plat');
+      const urlInp = document.getElementById('sl_url');
+      if (platInp) platInp.value = btn.dataset.name;
+      if (urlInp && (!urlInp.value || urlInp.value === '#')) urlInp.value = btn.dataset.url;
+      window.updateImageFieldPreview('sl_url');
+    });
   });
 }
 
