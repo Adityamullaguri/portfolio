@@ -7,7 +7,7 @@
 *.db-shm
 *.db-journal
 
-# Node modules
+# Dependencies
 node_modules/
 
 # Uploads directory
