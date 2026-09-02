@@ -145,8 +145,20 @@
     }
 
     // Portrait images
-    if (h.hero_image_light) { const el = qs('.h-portrait-light'); if (el) el.src = h.hero_image_light; }
-    if (h.hero_image_dark) { const el = qs('.h-portrait-dark'); if (el) el.src = h.hero_image_dark; }
+    if (h.hero_image_light) {
+      const el = qs('.h-portrait-light');
+      if (el) {
+        el.src = h.hero_image_light;
+        el.onerror = () => { el.src = 'portrait.png'; };
+      }
+    }
+    if (h.hero_image_dark) {
+      const el = qs('.h-portrait-dark');
+      if (el) {
+        el.src = h.hero_image_dark;
+        el.onerror = () => { el.src = 'portrait-dark.png'; };
+      }
+    }
   }
 
   // ── Apply About Data ──
@@ -173,9 +185,23 @@
       }
     }
 
-    if (a.image1_src) { const el = qs('.ab-img-card:nth-child(1) .ab-img'); if (el) { el.src = a.image1_src; el.alt = a.image1_alt || ''; } }
+    if (a.image1_src) {
+      const el = qs('.ab-img-card:nth-child(1) .ab-img');
+      if (el) {
+        el.src = a.image1_src;
+        el.alt = a.image1_alt || '';
+        el.onerror = () => { el.src = 'about-workspace.jpg'; };
+      }
+    }
     if (a.image1_caption) { const el = qs('.ab-img-card:nth-child(1) .ab-caption'); if (el) el.textContent = a.image1_caption; }
-    if (a.image2_src) { const el = qs('.ab-img-card:nth-child(2) .ab-img'); if (el) { el.src = a.image2_src; el.alt = a.image2_alt || ''; } }
+    if (a.image2_src) {
+      const el = qs('.ab-img-card:nth-child(2) .ab-img');
+      if (el) {
+        el.src = a.image2_src;
+        el.alt = a.image2_alt || '';
+        el.onerror = () => { el.src = 'about-dataviz.jpg'; };
+      }
+    }
     if (a.image2_caption) { const el = qs('.ab-img-card:nth-child(2) .ab-caption'); if (el) el.textContent = a.image2_caption; }
   }
 

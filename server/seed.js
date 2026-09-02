@@ -34,7 +34,7 @@ function seed() {
     VALUES (1, 'Hi, I am', 'Aditya.', 'Full Stack Developer', '& IoT / AI Explorer',
       'Building intelligent, end-to-end web applications, IoT ecosystems, and interactive digital experiences with modern web technologies.',
       'View Projects', '#projects', 'Get in Touch', '#contact',
-      'portrait-light.png', 'portrait-dark.png',
+      'portrait.png', 'portrait-dark.png',
       '["React", "Python", "Node.js", "AI / ML", "IoT", "FastAPI"]')
   `).run();
   console.log('  ✓ Home content initialized');
@@ -46,8 +46,8 @@ function seed() {
       'I am a passionate <span class="ab-hl">Full Stack Developer</span> and <span class="ab-hl">IoT Enthusiast</span> dedicated to bridging software with hardware.',
       '["I specialize in crafting high-performance web applications and embedded IoT solutions. With a strong background in computer science and engineering, I love tackling complex technical challenges from database architecture to microcontrollers.", "When I am not coding, you can find me exploring new AI models, contributing to open-source software, or building automated hardware prototypes."]',
       '[{"label":"Degree","value":"B.Tech in Computer Science"},{"label":"Specialization","value":"IoT & Embedded Systems"},{"label":"Status","value":"Open to Opportunities"},{"label":"Location","value":"India"}]',
-      'about-1.jpg', 'Working on code', 'Building scalable systems',
-      'about-2.jpg', 'Hardware tinkering', 'IoT & Embedded Projects')
+      'about-workspace.jpg', 'Working on code', 'Building scalable systems',
+      'about-dataviz.jpg', 'Hardware tinkering', 'IoT & Embedded Projects')
   `).run();
   console.log('  ✓ About content initialized');
 

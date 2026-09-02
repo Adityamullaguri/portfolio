@@ -60,7 +60,7 @@ function initSchema(db) {
       btn_primary_link TEXT DEFAULT '#projects',
       btn_secondary_text TEXT DEFAULT 'Get in Touch',
       btn_secondary_link TEXT DEFAULT '#contact',
-      hero_image_light TEXT DEFAULT 'portrait-light.png',
+      hero_image_light TEXT DEFAULT 'portrait.png',
       hero_image_dark TEXT DEFAULT 'portrait-dark.png',
       chips TEXT DEFAULT '["React", "Python", "Node.js", "AI / ML", "IoT", "FastAPI"]',
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -71,10 +71,10 @@ function initSchema(db) {
       intro TEXT DEFAULT 'I am a passionate <span class="ab-hl">Full Stack Developer</span> and <span class="ab-hl">IoT Enthusiast</span> dedicated to bridging software with hardware.',
       bio TEXT DEFAULT '["I specialize in crafting high-performance web applications and embedded IoT solutions. With a strong background in computer science and engineering, I love tackling complex technical challenges from database architecture to microcontrollers.", "When I am not coding, you can find me exploring new AI models, contributing to open-source software, or building automated hardware prototypes."]',
       info_rows TEXT DEFAULT '[{"label":"Degree","value":"B.Tech in Computer Science"},{"label":"Specialization","value":"IoT & Embedded Systems"},{"label":"Status","value":"Open to Opportunities"},{"label":"Location","value":"India"}]',
-      image1_src TEXT DEFAULT 'about-1.jpg',
+      image1_src TEXT DEFAULT 'about-workspace.jpg',
       image1_alt TEXT DEFAULT 'Working on code',
       image1_caption TEXT DEFAULT 'Building scalable systems',
-      image2_src TEXT DEFAULT 'about-2.jpg',
+      image2_src TEXT DEFAULT 'about-dataviz.jpg',
       image2_alt TEXT DEFAULT 'Hardware tinkering',
       image2_caption TEXT DEFAULT 'IoT & Embedded Projects',
       updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
