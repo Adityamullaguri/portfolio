@@ -150,6 +150,7 @@ if(!isTouch()&&!reduced){
 const rv=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
 },{threshold:.1});
+window._portfolioRV = rv;
 document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
 
 /* ══════════════════════════════════════

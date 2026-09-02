@@ -243,7 +243,7 @@
         const icons = ['⚡','📊','☁️','🔧','🚀','💡'];
         grid.innerHTML = i.responsibilities.map((r, idx) => {
           const tags = i.technologies ? i.technologies.slice(idx*2, idx*2+3) : [];
-          return `<div class="exp-card" data-r>
+          return `<div class="exp-card vis" data-r>
             <div class="exp-card-body">
               <div class="exp-icon-box">${icons[idx] || '🔹'}</div>
               <h4 class="exp-card-title">Responsibility ${idx+1}</h4>
@@ -273,9 +273,9 @@
     };
 
     grid.innerHTML = projects.map(p => `
-      <div class="prj-card" data-r>
+      <div class="prj-card vis" data-r>
         <div class="prj-img-box">
-          <img src="${p.image_url || ''}" alt="${p.name} Preview" class="prj-img">
+          <img src="${p.image_url || ''}" alt="${p.name} Preview" class="prj-img" onerror="this.src='assets/projects/smart-hydroponics.svg'">
           <span class="prj-badge ${statusClass(p.badge_label)}">${p.badge_label || 'Completed'}</span>
         </div>
         <div class="prj-content">
@@ -301,10 +301,8 @@
         </div>
       </div>`).join('');
 
-    // Re-observe new cards for reveal animation
-    if (window._portfolioRV) {
-      grid.querySelectorAll('[data-r]').forEach(el => window._portfolioRV.observe(el));
-    }
+    // Ensure all dynamic elements are visible
+    grid.querySelectorAll('.prj-card').forEach(el => el.classList.add('vis'));
   }
 
   // ── Apply Certificate Carousel ──
