@@ -69,12 +69,60 @@
       _key: p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '-' + p.id
     }));
 
+    function generateCertCardSvg(title, issuer) {
+      const t = (title || 'Certificate of Completion').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const isr = (issuer || 'Course Certification').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 550" width="800" height="550">
+        <defs>
+          <linearGradient id="cbg_${Math.random().toString(36).substr(2,4)}" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#0b111e" />
+            <stop offset="50%" stop-color="#141e33" />
+            <stop offset="100%" stop-color="#090d16" />
+          </linearGradient>
+          <linearGradient id="cgold" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#fcd34d" />
+            <stop offset="100%" stop-color="#d97706" />
+          </linearGradient>
+          <linearGradient id="cac" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#34d36e" />
+            <stop offset="100%" stop-color="#10b981" />
+          </linearGradient>
+        </defs>
+        <rect width="800" height="550" rx="16" fill="#0f172a" stroke="rgba(52,211,110,0.3)" stroke-width="2"/>
+        <rect x="22" y="22" width="756" height="506" rx="12" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1.5" stroke-dasharray="8 6"/>
+        <rect x="34" y="34" width="732" height="482" rx="8" fill="none" stroke="rgba(52,211,110,0.18)" stroke-width="1"/>
+        <rect x="240" y="52" width="320" height="34" rx="17" fill="rgba(52,211,110,0.12)" stroke="rgba(52,211,110,0.3)"/>
+        <text x="400" y="74" font-family="system-ui, -apple-system, sans-serif" font-size="13" font-weight="700" fill="#34d36e" text-anchor="middle" letter-spacing="1.5">${isr.toUpperCase()}</text>
+        <text x="400" y="145" font-family="Georgia, serif" font-size="20" fill="#94a3b8" text-anchor="middle" letter-spacing="3">CERTIFICATE OF COMPLETION</text>
+        <text x="400" y="180" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#64748b" text-anchor="middle">This is to certify that</text>
+        <text x="400" y="230" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="800" fill="#f8fafc" text-anchor="middle" letter-spacing="1">ADITYA</text>
+        <line x1="260" y1="250" x2="540" y2="250" stroke="rgba(52,211,110,0.4)" stroke-width="1.5"/>
+        <text x="400" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="13" fill="#64748b" text-anchor="middle">has successfully completed</text>
+        <text x="400" y="335" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="700" fill="url(#cac)" text-anchor="middle">${t}</text>
+        <g transform="translate(400, 425)">
+          <circle cx="0" cy="0" r="34" fill="url(#cgold)" opacity="0.95"/>
+          <circle cx="0" cy="0" r="28" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="3 3"/>
+          <polygon points="0,-14 3.5,-5 13,-5 6,2 9,11 0,5 -9,11 -6,2 -13,-5 -3.5,-5" fill="#ffffff"/>
+          <text x="0" y="22" font-family="system-ui, sans-serif" font-size="7.5" font-weight="800" fill="#0f172a" text-anchor="middle" letter-spacing="1">VERIFIED</text>
+        </g>
+        <text x="60" y="495" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">ISSUER: <tspan fill="#cbd5e1">${isr}</tspan></text>
+        <text x="740" y="495" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="end">CREDENTIAL: <tspan fill="#34d36e">OFFICIAL VERIFIED</tspan></text>
+      </svg>`;
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+    window.__generateCertSvg = generateCertCardSvg;
+
     window.__PD.certsData = (certificates || []).map(c => {
       const key = c.cert_key || (c.title ? c.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') : ('cert-' + c.id));
+      const raw = c.image_url || '';
+      const isPdf = raw.toLowerCase().endsWith('.pdf') || raw.includes('.pdf?');
+      const img = (isPdf || !raw) ? generateCertCardSvg(c.title, c.issuer) : raw;
       return {
         id: c.id,
         cert_key: key,
-        imageSrc: c.image_url,
+        imageSrc: img,
+        rawUrl: raw,
+        isPdf: isPdf,
         title: c.title,
         issuer: c.issuer,
         alt: c.title,
@@ -84,10 +132,15 @@
     window.__PD.certs = {};
     (certificates || []).forEach(c => {
       const key = c.cert_key || (c.title ? c.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') : ('cert-' + c.id));
+      const raw = c.image_url || '';
+      const isPdf = raw.toLowerCase().endsWith('.pdf') || raw.includes('.pdf?');
+      const img = (isPdf || !raw) ? generateCertCardSvg(c.title, c.issuer) : raw;
       const obj = {
         id: c.id,
         cert_key: key,
-        imageSrc: c.image_url,
+        imageSrc: img,
+        rawUrl: raw,
+        isPdf: isPdf,
         title: c.title,
         issuer: c.issuer,
         category: c.category || 'Certification',
@@ -324,7 +377,14 @@
     const mainIssuer = document.getElementById('certMainIssuer');
     const mainTitle = document.getElementById('certMainTitle');
     if (certs[0]) {
-      if (mainImg) { mainImg.src = certs[0].imageSrc; mainImg.alt = certs[0].alt; }
+      if (mainImg) {
+        mainImg.src = certs[0].imageSrc;
+        mainImg.alt = certs[0].alt;
+        mainImg.onerror = function() {
+          this.onerror = null;
+          if (window.__generateCertSvg) this.src = window.__generateCertSvg(certs[0].title, certs[0].issuer);
+        };
+      }
       if (mainIssuer) mainIssuer.textContent = certs[0].issuer;
       if (mainTitle) mainTitle.textContent = certs[0].title;
       if (mainCard) mainCard.dataset.certId = certs[0].cert_key;
@@ -337,7 +397,7 @@
         <button class="cert-thumb ${i === 0 ? 'cert-thumb-active' : ''}" data-idx="${i}"
                 role="tab" aria-selected="${i === 0 ? 'true' : 'false'}"
                 aria-label="${c.title}">
-          <img src="${c.imageSrc}" alt="" loading="lazy">
+          <img src="${c.imageSrc}" onerror="this.onerror=null; if (window.__generateCertSvg) this.src=window.__generateCertSvg('${(c.title||'').replace(/'/g, "\\'")}', '${(c.issuer||'').replace(/'/g, "\\'")}');" alt="" loading="lazy">
         </button>`).join('');
     }
   }

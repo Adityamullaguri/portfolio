@@ -619,6 +619,10 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
     if (!c) return;
     mainImg.src              = c.imageSrc;
     mainImg.alt              = c.alt || c.title;
+    mainImg.onerror = function() {
+      this.onerror = null;
+      if (window.__generateCertSvg) this.src = window.__generateCertSvg(c.title, c.issuer);
+    };
     mainIssuer.textContent   = c.issuer;
     mainTitle.textContent    = c.title;
     mainCard.dataset.certId  = c.cert_key || ('cert-' + c.id);
@@ -954,7 +958,12 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
 
   /* Full-screen certificate viewer */
   function openCertViewer() {
-    if (!viewer || !activeCert) return;
+    if (!activeCert) return;
+    if (activeCert.isPdf || (activeCert.rawUrl && (activeCert.rawUrl.toLowerCase().endsWith('.pdf') || activeCert.rawUrl.includes('.pdf?')))) {
+      window.open(activeCert.rawUrl || activeCert.imageSrc, '_blank');
+      return;
+    }
+    if (!viewer) return;
     viewerImg.src = activeCert.imageSrc;
     viewer.classList.add('active');
     viewer.setAttribute('aria-hidden', 'false');
