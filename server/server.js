@@ -35,6 +35,14 @@ const UPLOADS_DIR = path.join(__dirname, '..', 'uploads');
 // ── Serve uploaded files ──
 app.use('/uploads', express.static(UPLOADS_DIR));
 
+// ── Disable caching for API routes so dashboard updates reflect instantly ──
+app.use('/api', (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  next();
+});
+
 // ── API Routes ──
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api', require('./routes/public'));

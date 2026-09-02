@@ -23,7 +23,7 @@
     contact: {}
   };
 
-  // Fetch all data in parallel
+  // Fetch all data in parallel with cache-busting
   const endpoints = [
     '/api/home', '/api/about', '/api/skills', '/api/internships',
     '/api/projects', '/api/certificates', '/api/education',
@@ -31,7 +31,7 @@
   ];
 
   Promise.all(endpoints.map(url =>
-    fetch(url).then(r => r.json()).catch(() => null)
+    fetch(`${url}?_t=${Date.now()}`, { cache: 'no-store' }).then(r => r.json()).catch(() => null)
   )).then(([home, about, skills, internships, projects, certificates, education, socialLinks, navbar, settings, contact]) => {
 
     window.__PD.home = home || null;
@@ -69,26 +69,34 @@
       _key: p.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '-' + p.id
     }));
 
-    window.__PD.certsData = (certificates || []).map(c => ({
-      id: c.id,
-      imageSrc: c.image_url,
-      title: c.title,
-      issuer: c.issuer,
-      alt: c.title,
-      ariaLabel: `View ${c.title} certificate details`,
-      cert_key: c.cert_key
-    }));
-    window.__PD.certs = {};
-    (certificates || []).forEach(c => {
-      window.__PD.certs[c.cert_key] = {
+    window.__PD.certsData = (certificates || []).map(c => {
+      const key = c.cert_key || (c.title ? c.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') : ('cert-' + c.id));
+      return {
+        id: c.id,
+        cert_key: key,
         imageSrc: c.image_url,
         title: c.title,
         issuer: c.issuer,
-        category: c.category,
-        year: c.year,
-        description: c.description,
-        credentialId: c.credential_id
+        alt: c.title,
+        ariaLabel: `View ${c.title} certificate details`
       };
+    });
+    window.__PD.certs = {};
+    (certificates || []).forEach(c => {
+      const key = c.cert_key || (c.title ? c.title.toLowerCase().replace(/[^a-z0-9]+/g, '-') : ('cert-' + c.id));
+      const obj = {
+        id: c.id,
+        cert_key: key,
+        imageSrc: c.image_url,
+        title: c.title,
+        issuer: c.issuer,
+        category: c.category || 'Certification',
+        year: c.year || '2024',
+        description: c.description || '',
+        credentialId: c.credential_id || 'Verified'
+      };
+      window.__PD.certs[key] = obj;
+      window.__PD.certs[String(c.id)] = obj;
     });
 
     window.__PD.education = (education || []).map(e => ({
@@ -345,9 +353,9 @@
     itemsContainer.innerHTML = education.map((e, idx) => `
       <div class="edu-item" data-edu-idx="${idx}">
         <div class="edu-dot-wrap">
-          <div class="edu-dot" id="eduDot-${idx}"></div>
+          <div class="edu-dot active" id="eduDot-${idx}"></div>
         </div>
-        <div class="edu-card" id="eduCard-${idx}">
+        <div class="edu-card visible" id="eduCard-${idx}">
           <div class="edu-card-header">
             <span class="edu-year">${e.start_year} – ${e.end_year}</span>
             ${e.badge_text ? `<span class="edu-badge">${e.badge_text}</span>` : ''}

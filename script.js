@@ -535,19 +535,17 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
   animFrameId = requestAnimationFrame(tick);
 })();
 /* ══════════════════════════════════════
-   CERTIFICATES: Carousel Navigation
-   Controls which certificate is shown in
+   CERTIFICATES: Modern Smooth Carousel
+   Swaps image, title, and issuer into
    the large .epc-card-main slot.
    Completely separate from the FLIP morph
    handled by initExpandableCards below.
 ══════════════════════════════════════ */
 (function initCertCarousel() {
-
-  const CERTS_DATA = (window.__PD && window.__PD.certsData && window.__PD.certsData.length)
-    ? window.__PD.certsData
-    : [
+  const DEFAULT_CERTS_DATA = [
     {
       id: 'google-python',
+      cert_key: 'google-python',
       imageSrc: 'assets/certificates/google-python.svg',
       title: 'Crash Course on Python',
       issuer: 'Google / Coursera',
@@ -556,6 +554,7 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
     },
     {
       id: 'deeplearning-ml',
+      cert_key: 'deeplearning-ml',
       imageSrc: 'assets/certificates/deeplearning-ml.svg',
       title: 'Machine Learning Specialization',
       issuer: 'DeepLearning.AI',
@@ -564,6 +563,7 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
     },
     {
       id: 'meta-frontend',
+      cert_key: 'meta-frontend',
       imageSrc: 'assets/certificates/meta-frontend.svg',
       title: 'Front-End Developer Professional',
       issuer: 'Meta / Coursera',
@@ -572,6 +572,7 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
     },
     {
       id: 'cisco-cybersecurity',
+      cert_key: 'cisco-cybersecurity',
       imageSrc: 'assets/certificates/cisco-cybersecurity.svg',
       title: 'Intro to Cybersecurity',
       issuer: 'Cisco Networking Academy',
@@ -580,6 +581,12 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
     }
   ];
 
+  function getCertsData() {
+    return (window.__PD && window.__PD.certsData && window.__PD.certsData.length)
+      ? window.__PD.certsData
+      : DEFAULT_CERTS_DATA;
+  }
+
   const mainCard   = document.getElementById('certMainCard');
   const mainImg    = document.getElementById('certMainImg');
   const mainIssuer = document.getElementById('certMainIssuer');
@@ -587,11 +594,9 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
   const mainWrap   = document.getElementById('certMainWrap');
   const prevBtn    = document.getElementById('certPrevBtn');
   const nextBtn    = document.getElementById('certNextBtn');
-  const thumbBtns  = document.querySelectorAll('.cert-thumb');
 
   if (!mainCard || !mainImg || !mainWrap) return;
 
-  const N = CERTS_DATA.length;
   let selectedIdx = 0;
   let isChanging  = false;
 
@@ -601,7 +606,7 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
   }
 
   function updateThumbs() {
-    thumbBtns.forEach((btn, i) => {
+    document.querySelectorAll('.cert-thumb').forEach((btn, i) => {
       const active = (i === selectedIdx);
       btn.classList.toggle('cert-thumb-active', active);
       btn.setAttribute('aria-selected', active ? 'true' : 'false');
@@ -609,19 +614,24 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
   }
 
   function swapCard(idx) {
-    const c = CERTS_DATA[idx];
+    const data = getCertsData();
+    const c = data[idx] || data[0];
+    if (!c) return;
     mainImg.src              = c.imageSrc;
-    mainImg.alt              = c.alt;
+    mainImg.alt              = c.alt || c.title;
     mainIssuer.textContent   = c.issuer;
     mainTitle.textContent    = c.title;
-    mainCard.dataset.certId  = c.id;
-    mainCard.setAttribute('aria-label', c.ariaLabel);
+    mainCard.dataset.certId  = c.cert_key || ('cert-' + c.id);
+    mainCard.setAttribute('aria-label', c.ariaLabel || `View ${c.title} certificate details`);
   }
 
   function goTo(idx) {
     if (isChanging || isExpandedOpen()) return;
+    const data = getCertsData();
+    const N = data.length;
+    if (!N) return;
     const next = ((idx % N) + N) % N;
-    if (next === selectedIdx) return;
+    if (next === selectedIdx && mainImg.src.includes(data[next]?.imageSrc || '')) return;
 
     isChanging = true;
 
@@ -640,7 +650,7 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
     }, 200);
   }
 
-  /* Arrow buttons — stopPropagation prevents .epc-card click handler */
+  /* Arrow buttons */
   if (prevBtn) prevBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     goTo(selectedIdx - 1);
@@ -650,12 +660,17 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
     goTo(selectedIdx + 1);
   });
 
-  /* Thumbnail clicks */
-  thumbBtns.forEach((btn, i) => {
-    btn.addEventListener('click', (e) => {
+  /* Delegated thumbnail click handler */
+  document.addEventListener('click', (e) => {
+    const thumb = e.target.closest('.cert-thumb');
+    if (thumb) {
       e.stopPropagation();
-      goTo(i);
-    });
+      const allThumbs = [...document.querySelectorAll('.cert-thumb')];
+      const idx = allThumbs.indexOf(thumb);
+      if (idx !== -1) {
+        goTo(idx);
+      }
+    }
   });
 
   /* Keyboard arrows (disabled while expanded card is open) */
@@ -667,6 +682,12 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
     if (e.key === 'ArrowRight') { e.preventDefault(); goTo(selectedIdx + 1); }
   });
 
+  document.addEventListener('portfolioDataReady', () => {
+    selectedIdx = 0;
+    swapCard(0);
+    updateThumbs();
+  });
+
 })();
 
 /* ══════════════════════════════════════
@@ -676,9 +697,7 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
    expanded panel fades in, closes in reverse.
 ══════════════════════════════════════ */
 (function initExpandableCards() {
-  const CERTS = (window.__PD && window.__PD.certs && Object.keys(window.__PD.certs).length)
-    ? window.__PD.certs
-    : {
+  const DEFAULT_CERTS = {
     'google-python': {
       imageSrc: 'assets/certificates/google-python.svg',
       title: 'Crash Course on Python',
@@ -716,6 +735,12 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
       credentialId: 'CSCO-SEC-2023-1104'
     }
   };
+
+  function getCertsMap() {
+    return (window.__PD && window.__PD.certs && Object.keys(window.__PD.certs).length)
+      ? window.__PD.certs
+      : DEFAULT_CERTS;
+  }
 
   const ghost     = document.getElementById('epcMorphGhost');
   const backdrop  = document.getElementById('epcBackdrop');
@@ -764,29 +789,30 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
   }
 
   function getCenterRect() {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const W  = Math.min(940, vw - 48);
-    const H  = Math.min(expBody.scrollHeight || 560, vh * 0.80);
-    return { left:(vw-W)/2, top:(vh-H)/2, width:W, height:H };
+    const maxW = Math.min(680, window.innerWidth  - 32);
+    const maxH = Math.min(560, window.innerHeight - 48);
+    const left = (window.innerWidth  - maxW) / 2;
+    const top  = (window.innerHeight - maxH) / 2;
+    return { left, top, width: maxW, height: maxH };
   }
 
-  function fillExpanded(d) {
-    if (expImg)     expImg.src            = d.imageSrc;
-    if (expCat)     expCat.textContent    = d.category.toUpperCase();
-    if (expIssuer)  expIssuer.textContent = d.issuer;
-    if (expTitle)   expTitle.textContent  = d.title;
-    if (expDesc)    expDesc.textContent   = d.description;
-    if (metaIssuer) metaIssuer.textContent= d.issuer;
-    if (metaDate)   metaDate.textContent  = d.year;
-    if (metaCat)    metaCat.textContent   = d.category;
-    if (metaCred)   metaCred.textContent  = d.credentialId;
+  function fillExpanded(c) {
+    if (expImg)     { expImg.src = c.imageSrc; expImg.alt = c.title; }
+    if (expCat)     expCat.textContent     = c.category;
+    if (expIssuer)  expIssuer.textContent  = c.issuer;
+    if (expTitle)   expTitle.textContent   = c.title;
+    if (expDesc)    expDesc.textContent    = c.description;
+    if (metaIssuer) metaIssuer.textContent = c.issuer;
+    if (metaDate)   metaDate.textContent   = c.year;
+    if (metaCat)    metaCat.textContent    = c.category;
+    if (metaCred)   metaCred.textContent   = c.credentialId;
   }
 
   /* OPEN */
   function openCard(card, id) {
     if (isAnimating || isOpen) return;
-    const data = CERTS[id];
+    const map = getCertsMap();
+    const data = map[id] || Object.values(map)[0];
     if (!data) return;
     isAnimating = true;
     activeCard = card;
@@ -837,30 +863,29 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
 
   /* CLOSE */
   function closeCard() {
-    if (isAnimating || !isOpen) return;
-    if (!activeCard) { forcedClose(); return; }
+    if (isAnimating || !isOpen || !activeCard) return;
     isAnimating = true;
     isOpen = false;
 
-    const tgt    = getCenterRect();
-    const srcR   = activeCard.getBoundingClientRect();
+    const tgtR = activeCard.getBoundingClientRect();
 
-    ghostImg.src             = activeCert ? activeCert.imageSrc : '';
-    ghost.style.transition   = 'none';
-    setGhostPos(tgt);
-    ghost.style.borderRadius = '28px';
-    ghost.style.opacity      = '0';
-    ghost.style.visibility   = 'visible';
-
-    /* hide real panel immediately */
-    expBody.style.transition = 'opacity 80ms ease, transform 80ms ease';
+    /* Fade out expBody content quickly */
+    expBody.style.transition = 'opacity 140ms ease, transform 140ms ease';
     expBody.style.opacity    = '0';
-    expBody.style.transform  = 'scale(1)';
+    expBody.style.transform  = 'scale(0.97)';
 
-    requestAnimationFrame(() => {
-      ghost.style.transition = 'opacity 80ms ease';
-      ghost.style.opacity    = '1';
+    setTimeout(() => {
+      /* Bring ghost back into view at expanded position */
+      const curR = getCenterRect();
+      setGhostPos(curR);
+      ghost.style.borderRadius = '28px';
+      ghost.style.transition   = 'none';
+      ghost.style.opacity      = '1';
+      ghost.style.visibility   = 'visible';
+
+      /* Wait 1 frame then fly ghost back to card slot */
       requestAnimationFrame(() => {
+        const srcR = activeCard.getBoundingClientRect();
         ghost.style.transition =
           'left '          + DUR + 'ms ' + EASE + ', ' +
           'top '           + DUR + 'ms ' + EASE + ', ' +
@@ -889,7 +914,7 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
           isAnimating = false;
         }, DUR + 20);
       });
-    });
+    }, 130);
   }
 
   function forcedClose() {
@@ -1107,41 +1132,25 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
 (function initEduTimeline() {
   const section = document.getElementById('education');
   const progressLine = document.getElementById('eduTimelineProgress');
-  const items = document.querySelectorAll('.edu-item');
-  if (!section || !items.length) return;
-
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (reduced) {
-    if (progressLine) progressLine.style.height = '100%';
-    items.forEach(item => {
-      const dot = item.querySelector('.edu-dot');
-      const card = item.querySelector('.edu-card');
-      if (dot) dot.classList.add('active');
-      if (card) card.classList.add('visible');
-    });
-    return;
-  }
-
-  const firstItem = items[0];
-  const lastItem = items[items.length - 1];
+  if (!section) return;
 
   let rafId = null;
 
   function updateScrollProgress() {
     rafId = null;
+    const items = document.querySelectorAll('.edu-item');
+    if (!items.length) return;
+
+    const firstItem = items[0];
+    const lastItem = items[items.length - 1];
 
     const vh = window.innerHeight;
     const firstRect = firstItem.getBoundingClientRect();
     const lastRect = lastItem.getBoundingClientRect();
 
-    // Trigger viewport heights:
-    // First item activates when its top reaches ~75% of viewport height
-    const triggerStart = vh * 0.75;
-    // Last item activates when its top reaches ~50% of viewport height
-    const triggerEnd = vh * 0.50;
-
-    const maxLineHeight = lastItem.offsetTop - firstItem.offsetTop;
+    const triggerStart = vh * 0.85;
+    const triggerEnd = vh * 0.40;
+    const maxLineHeight = Math.max(80, lastItem.offsetTop - firstItem.offsetTop);
 
     let rawProgress = 0;
     if (firstRect.top <= triggerStart) {
@@ -1160,15 +1169,13 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
       progressLine.style.height = `${currentLineHeight}px`;
     }
 
-    // Update dot and card visibility per item based on scroll position
-    items.forEach((item, idx) => {
+    // Update dot pulse and maintain card visibility
+    items.forEach((item) => {
       const dot = item.querySelector('.edu-dot');
       const card = item.querySelector('.edu-card');
       const itemOffset = item.offsetTop - firstItem.offsetTop;
-
-      // Item is active if progress line reaches its vertical offset or item top is above trigger threshold
       const itemRect = item.getBoundingClientRect();
-      const isReached = (currentLineHeight >= itemOffset - 4) || (itemRect.top <= triggerStart);
+      const isReached = (currentLineHeight >= itemOffset - 10) || (itemRect.top <= triggerStart);
 
       if (dot) {
         if (isReached) {
@@ -1176,17 +1183,11 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
             dot.classList.add('active', 'pulse');
             setTimeout(() => dot.classList.remove('pulse'), 450);
           }
-        } else {
-          dot.classList.remove('active', 'pulse');
         }
       }
 
       if (card) {
-        if (isReached) {
-          card.classList.add('visible');
-        } else {
-          card.classList.remove('visible');
-        }
+        card.classList.add('visible');
       }
     });
   }
@@ -1199,8 +1200,10 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
 
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
+  document.addEventListener('portfolioDataReady', () => {
+    updateScrollProgress();
+  });
 
-  // Initial calculation on load
   updateScrollProgress();
 })();
 
