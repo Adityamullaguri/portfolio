@@ -40,16 +40,13 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api', require('./routes/public'));
 app.use('/api/admin', require('./routes/admin'));
 
-// ── Admin area: redirect /admin → /admin/ ──
-app.get('/admin', (req, res) => res.redirect('/admin/'));
-
 // ── Serve admin login page ──
 app.get('/admin/login', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'admin', 'login.html'));
 });
 
 // ── Serve admin dashboard ──
-app.get('/admin/', (req, res) => {
+app.get(['/admin', '/admin/dashboard'], (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'admin', 'dashboard.html'));
 });
 
