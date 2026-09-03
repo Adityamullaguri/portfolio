@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exported_at": "2026-09-03T14:13:54.835Z",
+  "exported_at": "2026-09-03T15:39:32.187Z",
   "data": {
     "site_settings": [
       {
@@ -36,10 +36,10 @@
         "btn_primary_link": "#projects",
         "btn_secondary_text": "Get in Touch",
         "btn_secondary_link": "#contact",
-        "hero_image_light": "portrait.png",
-        "hero_image_dark": "portrait-dark.png",
+        "hero_image_light": "/uploads/home/adityalight1-1788449959444.png",
+        "hero_image_dark": "/uploads/home/adityadark-1788449966326.png",
         "chips": "[\"React\",\"Python\",\"Node.js\",\"AI / ML\",\"IoT\",\"FastAPI\"]",
-        "updated_at": "2026-09-03T13:03:26.725Z"
+        "updated_at": "2026-09-03T15:39:30.008Z"
       }
     ],
     "about_content": [
@@ -182,17 +182,6 @@
         "updated_at": "2026-09-03 12:58:22"
       },
       {
-        "id": 11,
-        "name": "OpenCV",
-        "category": "Computer Vision",
-        "logo_url": "assets/skills/opencv.svg",
-        "description": "Computer vision and image processing.",
-        "display_order": 10,
-        "active": 1,
-        "created_at": "2026-09-03 12:58:22",
-        "updated_at": "2026-09-03 12:58:22"
-      },
-      {
         "id": 12,
         "name": "IoT",
         "category": "Hardware",
@@ -213,17 +202,17 @@
         "end_date": "August 26, 2026",
         "location": "Virtual / Remote",
         "description": "Completed the Tata Cybersecurity Analyst Job Simulation through Forage, gaining practical experience in identity and access management, IAM strategy assessment, custom IAM solutions, and platform integration.",
-        "logo_url": "/uploads/internships/tata-1788440839994.png",
-        "website_url": "",
+        "logo_url": "/uploads/internships/tata-1788449827499.png",
+        "website_url": null,
         "technologies": "[\"Cybersecurity\",\"IAM\",\"Identity & Access Management\",\"Access Control\",\"Platform Integration\"]",
         "responsibilities": "[\"Assessed identity and access management (IAM) strategies\",\"Worked on IAM fundamentals and access management concepts\",\"Crafted custom IAM solutions based on requirements\",\"Explored platform integration approaches\"]",
         "achievements": "[\"Successfully completed the Tata Cybersecurity Analyst Job Simulation\",\"Completed practical cybersecurity tasks focused on IAM\",\"Gained hands-on experience with IAM strategy and solution design\"]",
-        "cert_url": "/uploads/internships/tatacer-1788440914998.png",
+        "cert_url": "/uploads/internships/tatacer-1788449836235.png",
         "cert_title": "Cybersecurity Analyst Job Simulation",
         "display_order": 0,
         "active": 1,
         "created_at": "2026-09-03 13:08:41",
-        "updated_at": "2026-09-03 13:08:41"
+        "updated_at": "2026-09-03 15:37:17"
       }
     ],
     "projects": [
@@ -233,7 +222,7 @@
         "short_desc": "A full-stack real-time chat application with secure authentication, messaging, conversations, contacts, and calling APIs.",
         "full_desc": "Developed a full-stack chat application with user registration and login, session management, conversations, contacts, messaging, and calling APIs. Implemented secure authentication using password hashing, input validation, token-based sessions, HTTP authentication cookies, and session expiry. Designed RESTful backend APIs and integrated PostgreSQL with Drizzle ORM for persistent user, session, conversation, and message data.",
         "category": "Full Stack Web Development",
-        "image_url": "/uploads/projects/screenshot-from-2026-09-03-18-51-39-1788441719753.png",
+        "image_url": "/uploads/projects/screenshot-from-2026-09-03-18-51-39-1788449863000.png",
         "github_url": "https://github.com/mullaguriaditya/chat-app",
         "demo_url": "https://chat-app-lime-five-35.vercel.app/",
         "tags": "[\"Next.js\",\"React\",\"TypeScript\",\"PostgreSQL\",\"Drizzle ORM\",\"Node.js\",\"Tailwind CSS\",\"bcryptjs\",\"JWT\",\"REST API\"]",
@@ -244,7 +233,7 @@
         "published": 1,
         "display_order": 0,
         "created_at": "2026-09-03 13:23:46",
-        "updated_at": "2026-09-03 13:23:46"
+        "updated_at": "2026-09-03 15:37:45"
       }
     ],
     "certificates": [
@@ -257,13 +246,13 @@
         "year": "2026",
         "credential_id": "",
         "credential_url": "https://verify.onwingspan.com",
-        "image_url": "/uploads/certificates/infosis-1788441053098.png",
+        "image_url": "/uploads/certificates/infosis-1788449882628.png",
         "category": "Certification",
         "skills_list": "[]",
         "display_order": 0,
         "active": 1,
         "created_at": "2026-09-03 13:10:59",
-        "updated_at": "2026-09-03 13:10:59"
+        "updated_at": "2026-09-03 15:38:04"
       },
       {
         "id": 6,
@@ -274,13 +263,13 @@
         "year": "2026",
         "credential_id": "",
         "credential_url": "saylor.org",
-        "image_url": "/uploads/certificates/saylor-1788441089630.png",
+        "image_url": "/uploads/certificates/saylor-1788449894150.png",
         "category": "Certification",
         "skills_list": "[]",
         "display_order": 0,
         "active": 1,
         "created_at": "2026-09-03 13:11:34",
-        "updated_at": "2026-09-03 13:11:34"
+        "updated_at": "2026-09-03 15:38:16"
       }
     ],
     "education": [
@@ -361,7 +350,7 @@
       {
         "id": 4,
         "platform": "Resume",
-        "url": "/uploads/misc/adityacv-1788442315876.pdf",
+        "url": "/uploads/misc/adityacv-1788449917144.pdf",
         "icon_svg": null,
         "display_order": 3,
         "active": 1,
