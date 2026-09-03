@@ -3,7 +3,10 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 
-const UPLOADS_DIR = path.join(__dirname, '..', '..', 'uploads');
+// On Render: persistent disk is at /app/data. Store uploads there so
+// they survive container restarts. DATA_DIR env var can override for local dev.
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..', '..', 'data');
+const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
 
 const ALLOWED_TYPES = {
   'image/png': '.png',

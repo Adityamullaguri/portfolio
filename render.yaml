@@ -14,8 +14,11 @@ services:
         value: admin@portfolio.local
       - key: ADMIN_PASSWORD
         value: Admin@1234
+    # Persistent disk mounted at /app/data — stores:
+    #   portfolio.db  (SQLite database, all dashboard edits)
+    #   uploads/      (user-uploaded images, PDFs, etc.)
+    #   portfolio-state.json  (JSON snapshot for disaster recovery)
     disk:
       name: portfolio-data
       mountPath: /app/data
       sizeGB: 1
-

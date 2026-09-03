@@ -3,7 +3,13 @@ const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 
-const DB_PATH = process.env.DB_PATH || path.join(__dirname, '..', 'portfolio.db');
+// On Render: persistent disk is mounted at /app/data (see render.yaml).
+// We store the DB there so it survives container restarts/redeploys.
+// DATA_DIR env var can override for local dev (defaults to <repo>/data).
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..', 'data');
+if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+
+const DB_PATH = process.env.DB_PATH || path.join(DATA_DIR, 'portfolio.db');
 
 let dbInstance = null;
 

@@ -25,8 +25,9 @@ app.use(parseCookies);
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 
-// ── Ensure uploads directory ──
-const UPLOADS_DIR = path.join(__dirname, '..', 'uploads');
+// ── Ensure uploads directory on persistent disk ──
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..', 'data');
+const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
 ['','skills','projects','certificates','internships','about','home','misc'].forEach(sub => {
   const d = path.join(UPLOADS_DIR, sub);
   if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
