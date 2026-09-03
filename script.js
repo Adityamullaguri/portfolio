@@ -278,8 +278,9 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
 /* ══════════════════════════════════════
    SKILLS SECTION: RADIAL CAROUSEL
 ══════════════════════════════════════ */
-(function initSkillRadialCarousel() {
-  const skills = (window.__PD && window.__PD.skills && window.__PD.skills.length)
+// Runs AFTER data.js fires 'portfolioDataReady' so window.__PD.skills is populated
+function initSkillRadialCarousel() {
+  const apiSkills = (window.__PD && window.__PD.skills && window.__PD.skills.length)
     ? window.__PD.skills
     : [
     {
@@ -368,6 +369,8 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
     }
   ];
 
+  const skills = apiSkills;
+
   const wrapper = document.getElementById('radialSkillCarousel');
   const orbitContainer = document.getElementById('radialOrbitContainer');
   const centerCard = document.getElementById('skillCenterCard');
@@ -377,6 +380,9 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
   const centerDesc = document.getElementById('centerSkillDesc');
 
   if (!wrapper || !orbitContainer || !centerCard) return;
+
+  // Clear any previously rendered orbit items (in case this is called again)
+  orbitContainer.innerHTML = '';
 
   let activeIndex = 0;
   let currentAngle = 0;
@@ -533,7 +539,19 @@ document.querySelectorAll('[data-r]').forEach(el=>rv.observe(el));
 
   renderLayout();
   animFrameId = requestAnimationFrame(tick);
-})();
+
+  // Set initial center card from first skill
+  if (skills.length) {
+    const first = skills[0];
+    if (centerLogo) { centerLogo.src = first.logo; centerLogo.alt = first.name; }
+    if (centerName) centerName.textContent = first.name;
+    if (centerCat)  centerCat.textContent  = first.category;
+    if (centerDesc) centerDesc.textContent  = first.description;
+  }
+}
+
+// Wait for API data before building the skills orbit
+document.addEventListener('portfolioDataReady', initSkillRadialCarousel, { once: true });
 /* ══════════════════════════════════════
    CERTIFICATES: Modern Smooth Carousel
    Swaps image, title, and issuer into
