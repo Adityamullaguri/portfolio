@@ -6,7 +6,7 @@ const fs = require('fs');
 const { getDb } = require('../db');
 const { requireAuth } = require('../middleware/auth');
 const { upload, UPLOADS_DIR } = require('../middleware/upload');
-const { exportState, autoSyncState, importState, publishToGitHub } = require('../backup');
+const { exportState, autoSyncState, importState } = require('../backup');
 
 // All routes require authentication
 router.use(requireAuth);
@@ -20,8 +20,10 @@ function log(db, action, entity, entity_id = '', detail = '') {
     db.prepare('INSERT INTO activity_log (action,entity,entity_id,detail) VALUES (?,?,?,?)')
       .run(action, entity, String(entity_id), detail);
   } catch(e) {}
-  // Auto-persist database state to local JSON snapshot
-  try { autoSyncState(db); } catch(e) {}
+  // Auto-persist database state to persistent JSON snapshot
+  try {
+    autoSyncState(db);
+  } catch(e) {}
 }
 
 // ── BACKUP & RESTORE ──
@@ -50,22 +52,6 @@ router.post('/sync-snapshot', (req, res) => {
   const ok = autoSyncState(db);
   if (ok) res.json({ success: true, message: 'State synced to snapshot successfully.' });
   else res.status(500).json({ error: 'Failed to sync snapshot.' });
-});
-
-// ── PUBLISH TO GITHUB (permanent persistence) ──
-router.post('/publish', async (req, res) => {
-  const db = getDb();
-  try {
-    const result = await publishToGitHub(db);
-    if (result.success) {
-      log(db, 'PUBLISH', 'system', 0, 'Published state to GitHub');
-      res.json({ success: true, message: result.message });
-    } else {
-      res.status(500).json({ error: result.message });
-    }
-  } catch(err) {
-    res.status(500).json({ error: err.message });
-  }
 });
 
 // ── STATS (dashboard overview) ──
@@ -200,7 +186,7 @@ router.put('/skills/:id', (req, res) => {
   const { name, category, logo_url, description, display_order, active } = req.body;
   const existing = db.prepare('SELECT id FROM skills WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Skill not found.' });
-  db.prepare('UPDATE skills SET name=?,category=?,logo_url=?,description=?,display_order=?,active=?,updated_at=datetime("now") WHERE id=?')
+  db.prepare('UPDATE skills SET name=?,category=?,logo_url=?,description=?,display_order=?,active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
     .run(name, category, logo_url, description, display_order, active?1:0, req.params.id);
   log(db, 'UPDATE', 'skill', req.params.id, `Updated skill: ${name}`);
   res.json({ success: true });
@@ -242,7 +228,7 @@ router.put('/internships/:id', (req, res) => {
   const existing = db.prepare('SELECT id FROM internships WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Internship not found.' });
   const { company, role, start_date, end_date, location, description, logo_url, website_url, technologies, responsibilities, achievements, cert_url, cert_title, display_order, active } = req.body;
-  db.prepare('UPDATE internships SET company=?,role=?,start_date=?,end_date=?,location=?,description=?,logo_url=?,website_url=?,technologies=?,responsibilities=?,achievements=?,cert_url=?,cert_title=?,display_order=?,active=?,updated_at=datetime("now") WHERE id=?')
+  db.prepare('UPDATE internships SET company=?,role=?,start_date=?,end_date=?,location=?,description=?,logo_url=?,website_url=?,technologies=?,responsibilities=?,achievements=?,cert_url=?,cert_title=?,display_order=?,active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
     .run(company,role,start_date,end_date,location,description,logo_url,website_url,JSON.stringify(technologies||[]),JSON.stringify(responsibilities||[]),JSON.stringify(achievements||[]),cert_url,cert_title,display_order,active?1:0,req.params.id);
   log(db, 'UPDATE', 'internship', req.params.id, `Updated internship: ${role} at ${company}`);
   res.json({ success: true });
@@ -285,7 +271,7 @@ router.put('/projects/:id', (req, res) => {
   const existing = db.prepare('SELECT id FROM projects WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Project not found.' });
   const { name, short_desc, full_desc, category, image_url, github_url, demo_url, tags, role, status, badge_label, featured, published, display_order } = req.body;
-  db.prepare('UPDATE projects SET name=?,short_desc=?,full_desc=?,category=?,image_url=?,github_url=?,demo_url=?,tags=?,role=?,status=?,badge_label=?,featured=?,published=?,display_order=?,updated_at=datetime("now") WHERE id=?')
+  db.prepare('UPDATE projects SET name=?,short_desc=?,full_desc=?,category=?,image_url=?,github_url=?,demo_url=?,tags=?,role=?,status=?,badge_label=?,featured=?,published=?,display_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
     .run(name,short_desc,full_desc,category,image_url,github_url,demo_url,JSON.stringify(tags||[]),role,status,badge_label,featured?1:0,published?1:0,display_order,req.params.id);
   log(db, 'UPDATE', 'project', req.params.id, `Updated project: ${name}`);
   res.json({ success: true });
@@ -329,7 +315,7 @@ router.put('/certificates/:id', (req, res) => {
   const existing = db.prepare('SELECT id FROM certificates WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Certificate not found.' });
   const { issuer, title, description, year, credential_id, credential_url, image_url, category, skills_list, display_order, active } = req.body;
-  db.prepare('UPDATE certificates SET issuer=?,title=?,description=?,year=?,credential_id=?,credential_url=?,image_url=?,category=?,skills_list=?,display_order=?,active=?,updated_at=datetime("now") WHERE id=?')
+  db.prepare('UPDATE certificates SET issuer=?,title=?,description=?,year=?,credential_id=?,credential_url=?,image_url=?,category=?,skills_list=?,display_order=?,active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
     .run(issuer,title,description,year,credential_id,credential_url,image_url,category,JSON.stringify(skills_list||[]),display_order,active?1:0,req.params.id);
   log(db, 'UPDATE', 'certificate', req.params.id, `Updated certificate: ${title}`);
   res.json({ success: true });
@@ -371,7 +357,7 @@ router.put('/education/:id', (req, res) => {
   const existing = db.prepare('SELECT id FROM education WHERE id = ?').get(req.params.id);
   if (!existing) return res.status(404).json({ error: 'Education entry not found.' });
   const { degree, institution, start_year, end_year, description, location, badge_text, achievements, display_order, active } = req.body;
-  db.prepare('UPDATE education SET degree=?,institution=?,start_year=?,end_year=?,description=?,location=?,badge_text=?,achievements=?,display_order=?,active=?,updated_at=datetime("now") WHERE id=?')
+  db.prepare('UPDATE education SET degree=?,institution=?,start_year=?,end_year=?,description=?,location=?,badge_text=?,achievements=?,display_order=?,active=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
     .run(degree,institution,start_year,end_year,description,location,badge_text,JSON.stringify(achievements||[]),display_order,active?1:0,req.params.id);
   log(db, 'UPDATE', 'education', req.params.id, `Updated education: ${degree}`);
   res.json({ success: true });
