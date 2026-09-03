@@ -205,20 +205,26 @@
       }
     }
 
-    // Portrait images
-    if (h.hero_image_light) {
-      const el = qs('.h-portrait-light');
-      if (el) {
-        el.src = h.hero_image_light;
-        el.onerror = () => { el.src = 'portrait.png'; };
-      }
+    // Portrait images (handles light & dark modes with smart fallback)
+    const elLight = qs('.h-portrait-light');
+    const elDark  = qs('.h-portrait-dark');
+    const lightImg = h.hero_image_light || '';
+    const darkImg  = h.hero_image_dark || '';
+
+    // If user uploaded a custom image for one mode, use it as fallback for the other
+    const isCustomLight = lightImg && !lightImg.endsWith('portrait.png') && !lightImg.endsWith('portrait-dark.png');
+    const isCustomDark  = darkImg  && !darkImg.endsWith('portrait.png') && !darkImg.endsWith('portrait-dark.png');
+
+    const finalLight = lightImg || (isCustomDark ? darkImg : 'portrait.png');
+    const finalDark  = darkImg  || (isCustomLight ? lightImg : 'portrait-dark.png');
+
+    if (elLight) {
+      elLight.src = finalLight;
+      elLight.onerror = () => { elLight.src = isCustomDark ? darkImg : 'portrait.png'; };
     }
-    if (h.hero_image_dark) {
-      const el = qs('.h-portrait-dark');
-      if (el) {
-        el.src = h.hero_image_dark;
-        el.onerror = () => { el.src = 'portrait-dark.png'; };
-      }
+    if (elDark) {
+      elDark.src = finalDark;
+      elDark.onerror = () => { elDark.src = isCustomLight ? lightImg : 'portrait-dark.png'; };
     }
   }
 
