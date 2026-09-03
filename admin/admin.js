@@ -49,6 +49,28 @@ function toast(msg, type = 'success', duration = 3500) {
   setTimeout(() => { t.style.animation = 'slideIn .25s reverse'; setTimeout(() => t.remove(), 250); }, duration);
 }
 
+// ── Publish Changes to GitHub (permanent persistence) ──
+const publishBtn    = document.getElementById('publishBtn');
+const publishStatus = document.getElementById('publishStatus');
+if (publishBtn) {
+  publishBtn.addEventListener('click', async () => {
+    publishBtn.disabled = true;
+    publishBtn.textContent = 'Publishing…';
+    if (publishStatus) publishStatus.textContent = '';
+    try {
+      const r = await api('POST', '/api/admin/publish');
+      toast('✅ Changes published to GitHub! Render is redeploying — data is now permanent.', 'success', 6000);
+      if (publishStatus) publishStatus.textContent = `Last published: ${new Date().toLocaleTimeString()}`;
+    } catch (err) {
+      toast('Publish failed: ' + err.message, 'error', 5000);
+      if (publishStatus) publishStatus.textContent = 'Publish failed — check GITHUB_TOKEN env var.';
+    } finally {
+      publishBtn.disabled = false;
+      publishBtn.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Publish Changes`;
+    }
+  });
+}
+
 // ── Confirm Modal ──
 let _confirmResolve = null;
 const confirmModal = document.getElementById('confirmModal');
