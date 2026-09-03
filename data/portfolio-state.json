@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "exported_at": "2026-09-03T15:39:32.187Z",
+  "exported_at": "2026-09-03T15:57:12.975Z",
   "data": {
     "site_settings": [
       {
@@ -39,7 +39,7 @@
         "hero_image_light": "/uploads/home/adityalight1-1788449959444.png",
         "hero_image_dark": "/uploads/home/adityadark-1788449966326.png",
         "chips": "[\"React\",\"Python\",\"Node.js\",\"AI / ML\",\"IoT\",\"FastAPI\"]",
-        "updated_at": "2026-09-03T15:39:30.008Z"
+        "updated_at": "2026-09-03T15:57:10.322Z"
       }
     ],
     "about_content": [
@@ -202,17 +202,17 @@
         "end_date": "August 26, 2026",
         "location": "Virtual / Remote",
         "description": "Completed the Tata Cybersecurity Analyst Job Simulation through Forage, gaining practical experience in identity and access management, IAM strategy assessment, custom IAM solutions, and platform integration.",
-        "logo_url": "/uploads/internships/tata-1788449827499.png",
+        "logo_url": "/uploads/internships/tata-1788450929922.png",
         "website_url": null,
         "technologies": "[\"Cybersecurity\",\"IAM\",\"Identity & Access Management\",\"Access Control\",\"Platform Integration\"]",
         "responsibilities": "[\"Assessed identity and access management (IAM) strategies\",\"Worked on IAM fundamentals and access management concepts\",\"Crafted custom IAM solutions based on requirements\",\"Explored platform integration approaches\"]",
         "achievements": "[\"Successfully completed the Tata Cybersecurity Analyst Job Simulation\",\"Completed practical cybersecurity tasks focused on IAM\",\"Gained hands-on experience with IAM strategy and solution design\"]",
-        "cert_url": "/uploads/internships/tatacer-1788449836235.png",
+        "cert_url": "/uploads/internships/tatacer-1788450939766.png",
         "cert_title": "Cybersecurity Analyst Job Simulation",
         "display_order": 0,
         "active": 1,
         "created_at": "2026-09-03 13:08:41",
-        "updated_at": "2026-09-03 15:37:17"
+        "updated_at": "2026-09-03 15:55:41"
       }
     ],
     "projects": [
@@ -222,7 +222,7 @@
         "short_desc": "A full-stack real-time chat application with secure authentication, messaging, conversations, contacts, and calling APIs.",
         "full_desc": "Developed a full-stack chat application with user registration and login, session management, conversations, contacts, messaging, and calling APIs. Implemented secure authentication using password hashing, input validation, token-based sessions, HTTP authentication cookies, and session expiry. Designed RESTful backend APIs and integrated PostgreSQL with Drizzle ORM for persistent user, session, conversation, and message data.",
         "category": "Full Stack Web Development",
-        "image_url": "/uploads/projects/screenshot-from-2026-09-03-18-51-39-1788449863000.png",
+        "image_url": "/uploads/projects/screenshot-from-2026-09-03-18-51-39-1788450962691.png",
         "github_url": "https://github.com/mullaguriaditya/chat-app",
         "demo_url": "https://chat-app-lime-five-35.vercel.app/",
         "tags": "[\"Next.js\",\"React\",\"TypeScript\",\"PostgreSQL\",\"Drizzle ORM\",\"Node.js\",\"Tailwind CSS\",\"bcryptjs\",\"JWT\",\"REST API\"]",
@@ -233,7 +233,7 @@
         "published": 1,
         "display_order": 0,
         "created_at": "2026-09-03 13:23:46",
-        "updated_at": "2026-09-03 15:37:45"
+        "updated_at": "2026-09-03 15:56:04"
       }
     ],
     "certificates": [
@@ -246,13 +246,13 @@
         "year": "2026",
         "credential_id": "",
         "credential_url": "https://verify.onwingspan.com",
-        "image_url": "/uploads/certificates/infosis-1788449882628.png",
+        "image_url": "/uploads/certificates/infosis-1788450981353.png",
         "category": "Certification",
         "skills_list": "[]",
         "display_order": 0,
         "active": 1,
         "created_at": "2026-09-03 13:10:59",
-        "updated_at": "2026-09-03 15:38:04"
+        "updated_at": "2026-09-03 15:56:23"
       },
       {
         "id": 6,
@@ -263,13 +263,13 @@
         "year": "2026",
         "credential_id": "",
         "credential_url": "saylor.org",
-        "image_url": "/uploads/certificates/saylor-1788449894150.png",
+        "image_url": "/uploads/certificates/saylor-1788450992208.png",
         "category": "Certification",
         "skills_list": "[]",
         "display_order": 0,
         "active": 1,
         "created_at": "2026-09-03 13:11:34",
-        "updated_at": "2026-09-03 15:38:16"
+        "updated_at": "2026-09-03 15:56:33"
       }
     ],
     "education": [
@@ -350,7 +350,7 @@
       {
         "id": 4,
         "platform": "Resume",
-        "url": "/uploads/misc/adityacv-1788449917144.pdf",
+        "url": "/uploads/misc/adityacv-1788451022401.pdf",
         "icon_svg": null,
         "display_order": 3,
         "active": 1,
@@ -414,6 +414,89 @@
         "display_order": 7,
         "visible": 1
       }
-    ]
+    ],
+    "media": [
+      {
+        "id": 1,
+        "filename": "adityalight1-1788450902993.png",
+        "original_name": "adityalight1.png",
+        "mimetype": "image/png",
+        "size_bytes": 1465115,
+        "url": "/uploads/home/adityalight1-1788450902993.png",
+        "subfolder": "home",
+        "upload_date": "2026-09-03 15:55:03"
+      },
+      {
+        "id": 2,
+        "filename": "adityadark-1788450910004.png",
+        "original_name": "adityadark.png",
+        "mimetype": "image/png",
+        "size_bytes": 1632042,
+        "url": "/uploads/home/adityadark-1788450910004.png",
+        "subfolder": "home",
+        "upload_date": "2026-09-03 15:55:10"
+      },
+      {
+        "id": 3,
+        "filename": "tata-1788450929922.png",
+        "original_name": "tata.png",
+        "mimetype": "image/png",
+        "size_bytes": 33980,
+        "url": "/uploads/internships/tata-1788450929922.png",
+        "subfolder": "internships",
+        "upload_date": "2026-09-03 15:55:29"
+      },
+      {
+        "id": 4,
+        "filename": "tatacer-1788450939766.png",
+        "original_name": "tatacer.png",
+        "mimetype": "image/png",
+        "size_bytes": 98120,
+        "url": "/uploads/internships/tatacer-1788450939766.png",
+        "subfolder": "internships",
+        "upload_date": "2026-09-03 15:55:39"
+      },
+      {
+        "id": 5,
+        "filename": "screenshot-from-2026-09-03-18-51-39-1788450962691.png",
+        "original_name": "Screenshot from 2026-09-03 18-51-39.png",
+        "mimetype": "image/png",
+        "size_bytes": 78431,
+        "url": "/uploads/projects/screenshot-from-2026-09-03-18-51-39-1788450962691.png",
+        "subfolder": "projects",
+        "upload_date": "2026-09-03 15:56:02"
+      },
+      {
+        "id": 6,
+        "filename": "infosis-1788450981353.png",
+        "original_name": "infosis.png",
+        "mimetype": "image/png",
+        "size_bytes": 194263,
+        "url": "/uploads/certificates/infosis-1788450981353.png",
+        "subfolder": "certificates",
+        "upload_date": "2026-09-03 15:56:21"
+      },
+      {
+        "id": 7,
+        "filename": "saylor-1788450992208.png",
+        "original_name": "saylor.png",
+        "mimetype": "image/png",
+        "size_bytes": 268452,
+        "url": "/uploads/certificates/saylor-1788450992208.png",
+        "subfolder": "certificates",
+        "upload_date": "2026-09-03 15:56:32"
+      },
+      {
+        "id": 8,
+        "filename": "adityacv-1788451022401.pdf",
+        "original_name": "adityacv.pdf",
+        "mimetype": "application/pdf",
+        "size_bytes": 367004,
+        "url": "/uploads/misc/adityacv-1788451022401.pdf",
+        "subfolder": "misc",
+        "upload_date": "2026-09-03 15:57:02"
+      }
+    ],
+    "messages": []
   }
 }
