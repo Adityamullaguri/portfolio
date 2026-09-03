@@ -10,7 +10,9 @@
 # Dependencies
 node_modules/
 
-# Uploads directory (tracked so uploaded images/files persist on free hosting)
+# Uploads directory
+uploads/*
+!uploads/.gitkeep
 
 # Logs
 *.log
