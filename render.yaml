@@ -14,16 +14,10 @@ services:
         value: admin@portfolio.local
       - key: ADMIN_PASSWORD
         value: Admin@1234
-      - key: GITHUB_OWNER
-        value: Adityamullaguri
-      - key: GITHUB_REPO
-        value: portfolio
-      - key: GITHUB_BRANCH
-        value: main
-      # GITHUB_TOKEN must be set manually in the Render dashboard (not here)
-      # to avoid GitHub push-protection rejecting the commit.
-      # Set it to a GitHub Personal Access Token with repo write permission.
-    # Persistent disk (requires Render paid plan)
+    # Persistent disk mounted at /app/data — stores:
+    #   portfolio.db  (SQLite database, all dashboard edits)
+    #   uploads/      (user-uploaded images, PDFs, etc.)
+    #   portfolio-state.json  (JSON snapshot for disaster recovery)
     disk:
       name: portfolio-data
       mountPath: /app/data
