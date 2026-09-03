@@ -6,7 +6,7 @@ const fs = require('fs');
 const { getDb } = require('../db');
 const { requireAuth } = require('../middleware/auth');
 const { upload, UPLOADS_DIR } = require('../middleware/upload');
-const { exportState, autoSyncState, importState } = require('../backup');
+const { exportState, autoSyncState, importState, publishToGitHub } = require('../backup');
 
 // All routes require authentication
 router.use(requireAuth);
@@ -52,6 +52,22 @@ router.post('/sync-snapshot', (req, res) => {
   const ok = autoSyncState(db);
   if (ok) res.json({ success: true, message: 'State synced to snapshot successfully.' });
   else res.status(500).json({ error: 'Failed to sync snapshot.' });
+});
+
+// ── PUBLISH TO GITHUB — commits portfolio-state.json so data survives Render restarts ──
+router.post('/publish', async (req, res) => {
+  const db = getDb();
+  try {
+    const result = await publishToGitHub(db);
+    if (result.success) {
+      log(db, 'PUBLISH', 'system', 0, 'Published portfolio state to GitHub');
+      res.json({ success: true, message: result.message });
+    } else {
+      res.status(500).json({ error: result.message });
+    }
+  } catch(err) {
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // ── STATS (dashboard overview) ──
