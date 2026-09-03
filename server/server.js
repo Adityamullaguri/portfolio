@@ -25,16 +25,44 @@ app.use(parseCookies);
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ extended: true, limit: '5mb' }));
 
-// ── Ensure uploads directory on persistent disk ──
+// ── Ensure uploads directories exist and sync files ──
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, '..', 'data');
 const UPLOADS_DIR = path.join(DATA_DIR, 'uploads');
+const ROOT_UPLOADS = path.join(__dirname, '..', 'uploads');
+
 ['','skills','projects','certificates','internships','about','home','misc'].forEach(sub => {
-  const d = path.join(UPLOADS_DIR, sub);
-  if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true });
+  const d1 = path.join(UPLOADS_DIR, sub);
+  const d2 = path.join(ROOT_UPLOADS, sub);
+  if (!fs.existsSync(d1)) fs.mkdirSync(d1, { recursive: true });
+  if (!fs.existsSync(d2)) fs.mkdirSync(d2, { recursive: true });
 });
 
-// ── Serve uploaded files ──
+// Sync files between repo uploads/ and data/uploads/ on startup
+function syncUploads() {
+  function copyMissing(src, dest) {
+    if (!fs.existsSync(src)) return;
+    if (!fs.existsSync(dest)) fs.mkdirSync(dest, { recursive: true });
+    const entries = fs.readdirSync(src, { withFileTypes: true });
+    for (const entry of entries) {
+      const s = path.join(src, entry.name);
+      const d = path.join(dest, entry.name);
+      if (entry.isDirectory()) {
+        copyMissing(s, d);
+      } else if (entry.isFile() && !entry.name.startsWith('.')) {
+        if (!fs.existsSync(d)) {
+          try { fs.copyFileSync(s, d); } catch (e) {}
+        }
+      }
+    }
+  }
+  copyMissing(ROOT_UPLOADS, UPLOADS_DIR);
+  copyMissing(UPLOADS_DIR, ROOT_UPLOADS);
+}
+try { syncUploads(); } catch (e) {}
+
+// ── Serve uploaded files (check DATA_DIR/uploads, then repo/uploads) ──
 app.use('/uploads', express.static(UPLOADS_DIR));
+app.use('/uploads', express.static(ROOT_UPLOADS));
 
 // ── Disable caching for API routes so dashboard updates reflect instantly ──
 app.use('/api', (req, res, next) => {
